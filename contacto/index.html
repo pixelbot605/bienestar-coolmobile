@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - AWAN TECHNOLOGY SERVICES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <style>
+        html { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Fondo degradado AWAN */
+            background: linear-gradient(180deg, #ffffff, #840033, #c42f68, #840033, #c1386c, #840033);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #ffffff; 
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Títulos con borde blanco */
+        .title-outline {
+            color: #ae0747 !important;
+            text-shadow:
+                -1.5px -1.5px 0 #ffffff, 1.5px -1.5px 0 #ffffff,
+                -1.5px 1.5px 0 #ffffff, 1.5px 1.5px 0 #ffffff,
+                4px 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Chat Styles */
+        #chat-modal #chatbox { border: 1px solid #4B5563; padding: 1rem; height: 400px; overflow-y: scroll; background-color: #3C4248; border-radius: 0.5rem; margin-bottom: 1rem; }
+        #chat-modal .message-user { text-align: right; color: #ae0747; }
+        #chat-modal .message-bot { text-align: left; color: #ffffff; } 
+        #chat-modal #userInput { width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px; border: 1px solid #4B5563; background-color: #4A5568; color: white; outline: none; }
+        #chat-modal #userInput:focus { border-color: #ae0747; } 
+        #chat-modal #chat-button { background-color: #ae0747; color: white; padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: bold; }
+        
+        /* Footer Styles */
+        .footer-nuevo { font-family: 'Montserrat', sans-serif; color: #374151; }
+        .footer-nuevo h4 { color: #374151; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
+        .footer-nuevo a { color: #4B5563; text-decoration: none; transition: color 0.2s; }
+        .footer-nuevo a:hover { color: #840033; }
+
+        .chat-bubble-options { transition: all 0.3s ease-out; }
+        .chat-modal-overlay { background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
+        .chat-modal-content { z-index: 9999; max-height: 90vh; }
+
+        main { padding-top: 6rem; }
+
+        /* Estilos de las cajas cristalinas */
+        .glass-box {
+            background-color: rgba(46, 79, 79, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Borde blanco */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        /* ESTILOS FORMULARIO DE CONTACTO (AWAN STYLE) */
+        #contact-form .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #ffffff; /* Texto blanco */
+        }
+
+        #contact-form .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ae0747; /* Borde Rojo */
+            background-color: #2C3333;
+            color: #FFFFFF;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #contact-form .form-input::placeholder {
+            color: #d1d5db;
+            opacity: 0.7;
+        }
+
+        #contact-form .form-input:focus {
+            outline: none;
+            border-color: #ae0747;
+            box-shadow: 0 0 0 3px rgba(174, 7, 71, 0.3); /* Sombra roja */
+        }
+
+        #contact-form .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        #contact-form .submit-btn {
+            background-color: #ae0747; /* Botón Rojo */
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            transform: scale(1);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #contact-form .submit-btn:hover {
+            background-color: #840033; /* Hover Vino */
+            transform: scale(1.05);
+        }
+
+        /* Estilos para el mapa */
+        .map-container.glass-box {
+            overflow: hidden;
+            border-radius: 15px;
+            height: 400px;
+            padding: 0 !important;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Iconos de contacto */
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            color: #ae0747; /* Iconos Rojos */
+        }
+
+        @media (max-width: 768px) {
+            main { padding-top: 8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" 
+         @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        
+        <!-- HEADER -->
+        <header class="text-red-900 fixed top-0 w-full z-[2000] transition-colors duration-300" 
+                :class="{ 'bg-[#ffffff] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo AWAN TECHNOLOGY SERVICES" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Telefonia-simcard</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Promociones</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Contactos</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://recarga.internetparaelbienestar.mx/bienestar" class="hidden lg:block bg-white hover:bg-gray-100 text-[#840033] font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105 shadow-md border border-gray-200">
+                        Recargas
+                    </a>
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-gray-900 focus:outline-none"> 
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#691b32] z-40 pt-20 px-4">
+               <div class="absolute top-4 right-4">
+                   <button @click="openMenu = false" class="text-white"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+               </div>
+               <a href="/telefonia_simcard/" class="block py-2 text-white border-b border-white/20">Telefonía</a>
+               <a href="/recargas/" class="block py-2 text-white border-b border-white/20">Recargas</a>
+            </div>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL: Contacto -->
+        <main class="pt-24 pb-16 min-h-screen"> 
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <h1 class="text-4xl lg:text-5xl font-bold title-outline text-center mb-12">
+                      Ponte en Contacto
+                </h1>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Columna 1: Formulario -->
+                    <div class="glass-box h-full">
+                        <h2 class="text-3xl font-bold text-white mb-6">Envíanos un mensaje</h2>
+                        
+                        <form id="contact-form" 
+                              action="https://formspree.io/f/TU_ID_UNICO" 
+                              method="POST">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="contact-name" class="form-label">Nombre</label>
+                                    <input type="text" id="contact-name" name="name" class="form-input" placeholder="Tu nombre" required>
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="form-label">Email</label>
+                                    <input type="email" id="contact-email" name="email" class="form-input" placeholder="tu@email.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="contact-subject" class="form-label">Asunto</label>
+                                <input type="text" id="contact-subject" name="subject" class="form-input" placeholder="Ej: Duda sobre mi plan" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="contact-message" class="form-label">Mensaje</label>
+                                <textarea id="contact-message" name="message" class="form-input form-textarea" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Columna 2: Información y Mapa -->
+                    <div class="space-y-8">
+                        <!-- Info de Contacto -->
+                        <div class="glass-box">
+                            <h3 class="text-2xl font-bold text-white mb-6">Información de Contacto</h3>
+                            <div class="space-y-4 text-lg">
+                                <a href="tel:5644636321" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.827-1.47-5.02-3.664-6.49-6.49l1.293-.97c.363-.271.527-.734.417-1.173L6.351 3.102c-.125-.501-.613-.852-1.091-.852H3.975A2.25 2.25 0 001.725 4.5v2.25z" /></svg>
+                                    <span class="text-white group-hover:text-[#ae0747] transition-colors">56 4463 6321</span>
+                                </a>
+                                
+                                <a href="https://wa.me/5593311394" target="_blank" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12a9 9 0 11-18 0 9 9 0 0118 0zM5.25 12a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12zm1.5 0a.75.75 0 00-1.5 0v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V12z" /></svg>
+                                    <span class="text-white group-hover:text-[#ae0747] transition-colors">WhatsApp: 559 331 1394</span>
+                                </a>
+                                <a href="mailto:contacto@awantechnology.mx" class="flex items-center gap-4 group">
+                                    <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                                    <span class="text-white group-hover:text-[#ae0747] transition-colors">contacto@awantechnology.mx</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mapa -->
+                        <div class="map-container glass-box">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.463636733221!2d-99.1912089251025!3d19.435550240177747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d20201c104d16d%3A0x20f383e743603b54!2sC.%20Lago%2Vertical%20Zurich%20219%2C%20Ampliaci%C3%B3n%20Granada%2C%20Miguel%20Hidalgo%2C%2011529%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1700000000000!5m2!1ses-419!2smx" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <!-- FIN: Contenido principal -->
+
+    <!-- FOOTER BEIGE -->
+    <footer class="bg-[#ddc798] pt-10 footer-nuevo">
+        <div class="container mx-auto px-4 pb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+                <div class="w-full lg:w-1/4">
+                   <div class="p-0 text-center lg:text-left">
+                        <a href="index.html">
+                      <img src="logo.png" alt="AWAN TECHNOLOGY SERVICES" class="h-24 object-contain mx-auto lg:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/200x80/transparent/840033?text=AWAN+TECH';">
+                          </a>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/5">
+                   <h4>Consulta</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/telefonia_simcard/">Tarjeta SIM</a></li>
+                      <li><a href="/faqs/">Preguntas Frecuentes</a></li>
+                      <li><a href="https://tarifas.ift.org.mx/ift_visor/">Buscador de tarifas IFT</a></li>
+                      <li><a href="/portabilidad/">Portabilidad</a></li>
+                   </ul>
+                </div>
+                <div class="w-full lg:w-1/5">
+                   <h4>Legales</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/avisos-de-privacidad/" class="font-bold text-black">Aviso de privacidad Integral</a></li>
+                      <li><a href="/politica-de-uso-justo/">Política de Uso Justo</a></li>
+                      <li><a href="/terminos-de-condiciones/">Términos y Condiciones</a></li>
+                   </ul>
+                </div>
+                <div class="w-full lg:w-1/3 flex flex-col md:flex-row gap-8">
+                    <div class="flex-1">
+                        <h4>Ventas</h4>
+                        <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5644636321">
+                            <span class="font-bold text-black text-lg">564 463 6321</span>
+                            </a>
+                        </div>
+                        <p class="text-xs text-gray-500">Lunes a Viernes de 8:00 a 20:00</p>
+                        <p class="text-xs text-gray-500">Sábado a domigo de 9:00 a 16:00</p>
+                    </div>
+                    <div class="flex-1">
+                        <h4>Atención a Clientes</h4>
+                         <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5593311394">
+                            <span class="font-bold text-black text-lg">559 331 1394</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-[#640d2e] text-white py-4 text-center text-sm">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 AWAN TECHNOLOGY SERVICES Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chat Bubble & Modal -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <div x-show="chatOptionsOpen" class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#ae0747] rounded-lg shadow-xl py-2" @click.outside="chatOptionsOpen = false" x-cloak>
+            <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#840033]">Asistente Virtual</button>
+        </div>
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#ffffff] hover:bg-[#f0f0f0] text-[#ae0747] rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+            <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+    <div x-show="isChatOpen" class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" x-cloak>
+        <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+        <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#ffffff] title-outline">Asistente Virtual</h3>
+                <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+             <div id="chatbox" class="flex-grow"><p class="message-bot"><strong>Agente:</strong> ¡Hola! ¿En qué puedo ayudarte?</p></div>
+             <div class="flex items-center mt-4"><input type="text" id="userInput" placeholder="Escribe..." class="flex-grow mr-2"><button id="chat-button" onclick="sendMessage()">Enviar</button></div>
+         </div>
+    </div>
+
+    <script>
+        // Scripts de Chat y Scroll
+        const apiKey = ""; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+        
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; 
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendMessage() {
+            if (apiKey === "") {
+               addMessage("El chat no está configurado (Falta API Key).", 'bot');
+               return;
+            }
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+            
+            const payload = {
+                contents: [{ parts: [{ text: userMessage }] }],
+                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa AWAN TECHNOLOGY SERVICES." }] }
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (botResponse) addMessage(botResponse, 'bot');
+            } catch (error) {
+                addMessage('Error de conexión.', 'bot');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs - AWAN TECHNOLOGY SERVICES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> <!-- Fuente para FAQs -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    
+    <style>
+        html { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Fondo degradado original */
+            background: linear-gradient(180deg, #ffffff, #840033, #c42f68, #840033, #c1386c, #840033);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #ffffff; 
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Títulos con borde blanco */
+        .title-outline {
+            color: #ae0747 !important;
+            text-shadow:
+                -1.5px -1.5px 0 #ffffff, 1.5px -1.5px 0 #ffffff,
+                -1.5px 1.5px 0 #ffffff, 1.5px 1.5px 0 #ffffff,
+                4px 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Chat Styles */
+        #chat-modal #chatbox { border: 1px solid #4B5563; padding: 1rem; height: 400px; overflow-y: scroll; background-color: #3C4248; border-radius: 0.5rem; margin-bottom: 1rem; }
+        #chat-modal .message-user { text-align: right; color: #ae0747; }
+        #chat-modal .message-bot { text-align: left; color: #ffffff; } 
+        #chat-modal #userInput { width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px; border: 1px solid #4B5563; background-color: #4A5568; color: white; outline: none; }
+        #chat-modal #userInput:focus { border-color: #ae0747; } 
+        #chat-modal #chat-button { background-color: #ae0747; color: white; padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: bold; }
+        
+        /* Footer Styles */
+        .footer-nuevo { font-family: 'Montserrat', sans-serif; color: #374151; }
+        .footer-nuevo h4 { color: #374151; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
+        .footer-nuevo a { color: #4B5563; text-decoration: none; transition: color 0.2s; }
+        .footer-nuevo a:hover { color: #840033; }
+
+        .chat-bubble-options { transition: all 0.3s ease-out; }
+        .chat-modal-overlay { background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
+        .chat-modal-content { z-index: 9999; max-height: 90vh; }
+
+        main { padding-top: 6rem; }
+
+        /* --- ESTILOS ESPECÍFICOS PARA FAQs (Adaptados al tema Rojo) --- */
+        #awan-faq-widget {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-top: 1px;
+        }
+        #awan-faq-widget * { box-sizing: border-box; }
+
+        /* Contenedor Glass para FAQs */
+        .faq-container.glass-box {
+            background-color: rgba(46, 79, 79, 0.7); /* Base oscura */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        #awan-faq-widget .faq-title {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            color: #ffffff; /* Blanco */
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Botón Acordeón Principal */
+        #awan-faq-widget .accordion {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            cursor: pointer;
+            padding: 18px 20px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+            outline: none;
+            font-size: 18px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        #awan-faq-widget .accordion:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        #awan-faq-widget .accordion.active {
+            color: #FFFFFF;
+            background-color: rgba(174, 7, 71, 0.6); /* Rojo Activo */
+            border-color: #ae0747;
+        }
+        
+        #awan-faq-widget .accordion::after {
+            content: '+';
+            font-size: 24px;
+            color: #ffffff;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        #awan-faq-widget .accordion.active::after {
+            content: "−";
+        }
+
+        #awan-faq-widget .panel {
+            padding: 0;
+            background-color: transparent;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            border-radius: 0 0 12px 12px;
+            margin-bottom: 10px;
+        }
+
+        /* Acordeón Anidado */
+        #awan-faq-widget .nested-faq {
+            padding: 5px 10px;
+        }
+        #awan-faq-widget .accordion-nested {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #e5e7eb; /* Gris claro */
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            margin-top: 5px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #awan-faq-widget .accordion-nested:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+        #awan-faq-widget .accordion-nested.active {
+            font-weight: 600;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: #ae0747; /* Rojo al estar activo */
+        }
+        
+        #awan-faq-widget .panel-nested {
+            padding: 0 15px;
+            background-color: rgba(0, 0, 0, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 10px 10px;
+        }
+        #awan-faq-widget .panel-content-wrapper {
+            padding: 15px 0;
+        }
+        #awan-faq-widget .panel-nested p, 
+        #awan-faq-widget .panel-nested li {
+            font-size: 14px;
+            color: #d1d5db; /* Texto gris muy claro */
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        #awan-faq-widget .panel-nested a {
+            color: #ff9999; /* Enlaces en tono rojizo claro */
+            text-decoration: underline;
+        }
+        #awan-faq-widget .panel-nested strong {
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            main { padding-top: 8rem; }
+            #awan-faq-widget .faq-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" 
+         @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        
+        <!-- HEADER -->
+        <header class="text-red-900 fixed top-0 w-full z-[2000] transition-colors duration-300" 
+                :class="{ 'bg-[#ffffff] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo AWAN TECHNOLOGY SERVICES" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Telefonia-simcard</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Promociones</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Contactos</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://recarga.internetparaelbienestar.mx/bienestar" class="hidden lg:block bg-white hover:bg-gray-100 text-[#840033] font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105 shadow-md border border-gray-200">
+                        Recargas
+                    </a>
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-gray-900 focus:outline-none"> 
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#691b32] z-40 pt-20 px-4">
+               <div class="absolute top-4 right-4">
+                   <button @click="openMenu = false" class="text-white"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+               </div>
+               <a href="/telefonia_simcard/" class="block py-2 text-white border-b border-white/20">Telefonía</a>
+               <a href="/recargas/" class="block py-2 text-white border-b border-white/20">Recargas</a>
+            </div>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL: FAQs -->
+        <main class="pt-24 pb-16 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div id="awan-faq-widget">
+                    <h1 class="text-4xl lg:text-5xl font-bold title-outline text-center mb-16">
+                         Centro de Ayuda
+                    </h1>
+                
+                    <div class="faq-container glass-box">
+                        <h2 class="faq-title">Preguntas Frecuentes</h2>
+                        
+                        <!-- Sección 1: Información General -->
+                        <div class="faq-item">
+                            <button class="accordion"><span>Información General</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Cuál es la cobertura de Cool Mobile?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>
+                                                Con&nbsp;Cool Mobile tienes cobertura en la Republica Mexicana, Estados Unidos y Canadá,&nbsp;trabaja con la&nbsp;Banda 28, lo cual permite tener un&nbsp;mayor alcance, tanto en&nbsp;zonas rurales y urbanas, puedes consultar nuestro mapa de&nbsp;cobertura&nbsp;<a href="https://www.coolmobile.mx" target="_blank">aquí</a>.
+                                                <br><br>
+                                                En caso de no contar con señal, puedes conectarte a la red&nbsp;“Cool Mobile R”&nbsp;y así por medio de&nbsp;Roaming o Itinerancia, seguir disfrutando de tu servicio de&nbsp;Voz, SMS y Datos. Recuerda que cada recarga incluye un límite para uso de&nbsp;Roaming internacional&nbsp;para conectarte a internet, hacer llamadas y enviar SMS al estar conectado a una red de Estados Unidos y Canadá,&nbsp;consulta las características de cada una&nbsp;<a href="https://www.coolmobile.mx" target="_blank">aquí</a>.
+                                            </p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué tipo de red utiliza Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Utiliza la Red Compartida, la cual es una red móvil de banda ancha 4.5G LTE de baja latencia y alta velocidad.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Con qué tipo de lada opera la SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Con cualquier lada nacional, incluso puedes solicitar un cambio de número para asignar la lada de tu preferencia con un número totalmente nuevo.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Qué pasa cuando un dispositivo está bloqueado?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Existen dos tipos de bloqueo:</p>
+                                            <p><strong>Bloqueo por robo o extravío:</strong> Es posible saber si un equipo celular ha sido incluido en la lista global de dispositivos móviles robados o extraviados, antes de adquirirlos. Con esto se busca desincentivar el robo de los teléfonos celulares y evitar así que en muchas ocasiones sean utilizados por los delincuentes para llevar a cabo extorsiones y otros ilícitos. Para realizar una consulta se debe ingresar al sitio web del Instituto Federal de Telecomunicaciones: <a href="http://www.ift.org.mx/imei" target="_blank">http://www.ift.org.mx/imei</a>, solo es necesario introducir el número de IMEI del dispositivo y automáticamente iniciará la búsqueda de esta información en la base de datos.</p>
+                                            <p><strong>Bloqueo por compañía de telefonía móvil:</strong> Significa que el equipo móvil sólo se puede usar con tarjetas SIM de la compañía con la que fue adquirido. De este modo, si cambias de compañía telefónica o viajas al extranjero, el móvil se negará a funcionar a no ser que lo desbloquees primero. En caso de requerir un desbloqueo, te recomendamos comunicarte con la compañía de telefonía con la que fue adquirido y seguir las instrucciones que te brinden.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo compro la tarjeta SIM o eSIM Cool Mobile?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ol>
+                                                <li> Adquiere tu tarjeta SIM o eSIM Cool Mobile en nuestra aplicación Cool Mobile, disponible para AppStore y Playstore o desde el portal web Cool Mobile: 
+                                                <a href="https://www.coolmobile.mx/telefonia" target="_blank">
+                                                    www.coolmobile.mx/telefonia
+                                                </a>.</li>
+                                                <li>Selecciona la opción “Comprar SIM o eSIM”.</li>
+                                                <li>Selecciona el método de entrega</li>
+                                                <li>Ingresa tu nombre, número de teléfono de contacto y datos del envío.</li>
+                                                <li>Ingresa los datos de tu tarjeta para realizar el pago.</li>
+                                                <li>Se te mostrarán los datos de resumen de compra.</li>
+                                                <li>Confirma el pago.</li>
+                                                <li> En caso de que tu dispositivo sea compatible con la eSIM Cool Mobile, se te enviará por Whatsapp, una vez realizado el pago.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cuál es el costo de la tarjeta SIM y eSIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>En la compra de tu primer recarga el costo de la tarjeta SIM, eSIM y el envío es totalmente gratis.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Puedo cambiarme a Cool Mobile y conservar mi número?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>¡Claro! La Portabilidad es un derecho que como consumidor te permite elegir la compañía telefónica que consideres más conveniente, SIN PERDER o cambiar tu número telefónico actual.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cuáles son las recargas que ofrece Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Consulta el siguiente enlace: <a href="https://www.coolmobile.mx" target="_blank">Recargas</a>, para revisar nuestra oferta comercial. Solo es necesario comprar uno de ellos y se activa automáticamente en tu línea Cool Mobile.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Dónde puedo realizar recargas?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ul>
+                                                <li>A través de nuestra página web en el siguiente enlace: <a href="https://www.coolmobile.mx" target="_blank">Recargas</a>.</li>
+                                                <li>A través de la aplicación y en el portal web Mi Cool Mobile: <a href="https://www.micoolmobile.mx" target="_blank">www.micoolmobile.mx</a>.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo consulto mi saldo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Hay varias opciones:</p>
+                                            <ul>
+                                                <li>Entra en la aplicación Mi Cool Mobile e inicia sesión y en la pantalla de inicio se mostrará el saldo actual.</li>
+                                                <li>Entra al portal Mi Cool Mobile: <a href="https://www.micoolmobile.mx" target="_blank">www.micoolmobile.mx</a> e inicia sesión, en la pantalla de inicio se mostrará el saldo actual.</li>
+                                                <li>Envía un SMS al 52142 con la palabra SALDO y recibirás un enlace para consultar el detalle tu saldo.</li>
+                                                <li>También puedes comunicarte con nosotros para solicitar el saldo de tu línea <a href="https://www.coolmobile.mx" target="_blank">aquí</a>.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo reviso mi buzón de voz?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Para consultar tu buzón de voz marca desde tu línea Cool Mobile al número *86 e ingresa tu contraseña, la contraseña predeterminada es 1234, sin embargo puedes modificarla en el menú del buzón de voz. Si quieres cambiar la clave o tienes dudas comunícate con nosotros.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo puedo contactarlos si tengo algún problema, dudas, quejas y/o aclaraciones?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>En Cool Mobile lo más importante eres tú, por lo que ponemos a tu disposición para cualquier duda o aclaración nuestros medios de contacto:</p>
+                                            <ul>
+                                                <li>Desde tu línea Cool Mobile marca al <strong>*COOL (*2665)</strong>.</li>
+                                                <li>Teléfonos: <strong>800 649 00 26</strong> y el <strong>777 362 2340 al 69</strong></li>
+                                                <li>WhatsApp: <strong>55 86 48 38 31</strong></li>
+                                                <li>Lunes a Domingo de 9:00 a.m. a 6:00 p.m.</li>
+                                                <li>Escríbenos al correo: <strong>soporte@coolmobile.mx</strong></li>
+                                                <li>A través de nuestra página web: <a href="https://www.coolmobile.mx" target="_blank">www.coolmobile.mx</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cuál es el ciclo de vida de la SIM, línea o número asignado por Cool Mobile?</span></button>
+                                     <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Las líneas que cuenten con una recarga o paquete activo se considerarán en <strong>Etapa Activa</strong> hasta que concluya la vigencia del mismo, durante esta etapa podrán gozar de los beneficios adquiridos.</p>
+                                            <p>Al concluir la vigencia de la recarga o paquete se tendrá hasta 60 días naturales para adquirir una nueva recarga o paquete. Las líneas sin una recarga vigente o paquete activo únicamente podrán recibir llamadas y mensajes de texto.</p>
+                                            <p>La línea entrará a la <strong>Etapa Suspendida</strong> después de transcurridos los 60 días naturales sin que se haya realizado una recarga o paquete, en esta etapa no se podrán recibir llamadas o mensajes de texto.</p>
+                                            <p>La Etapa Suspendida tendrá una duración de 60 días naturales misma que se empezará a contar al día siguiente del vencimiento de la Etapa Activa.</p>
+                                            <p>Si no se adquiere una recarga o paquete durante la Etapa Suspendida la línea será <strong>Cancelada</strong>, para lo cual el PROVEEDOR debe cerciorarse de que el SUSCRIPTOR no tiene saldo pendiente de ser abonado; en caso de que el SUSCRIPTOR tenga saldo pendiente de ser consumido, el PROVEEDOR sólo podrá cancelar el servicio, una vez que transcurra en exceso el término de 365 (trescientos sesenta y cinco) días naturales siguientes a la fecha en que expiró dicho saldo, atendiendo a lo establecido en el artículo 191, fracción XVI de la Ley Federal de Telecomunicaciones y Radiodifusión.</p>
+                                            <p>Cuando proceda la cancelación el número se perderá, no podrá ser recuperado y se asignará a un nuevo usuario.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el ICC de mi tarjeta SIM o eSIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>El ICC o Internacional Circuit Card es un código de 19 dígitos único para cada tarjeta SIM. Este código es un número de serie que identifica la tarjeta a nivel global e internacional. En el caso de la tarjeta SIM Cool Mobile (tarjeta física), puedes consultarlo en la parte posterior debajo del código de barras ya que se te solicitará en la activación. Si no cuentas con él o tienes dudas, comunícate con nosotros.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el PIN de mi tarjeta SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Es el código de seguridad de 4 dígitos que se ubica al reverso de la tarjeta SIM Cool Mobile (tarjeta física), normalmente se utiliza para bloquear dicha tarjeta desde el dispositivo móvil. En caso de que se ingrese el PIN de forma incorrecta 3 veces, la tarjeta SIM se bloqueará y deberás usar el código PUK.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el PUK de mi tarjeta SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Es el código de seguridad de 8 dígitos que se ubica al reverso de la tarjeta SIM Cool Mobile (tarjeta física), se utiliza para desbloquear la tarjeta desde el dispositivo móvil en caso de que se haya bloqueado por error. En caso de que se ingrese el PUK de forma incorrecta 10 veces, la tarjeta SIM se bloqueará de forma definitiva y no podrá usarse nuevamente hasta que adquieras una tarjeta SIM Cool Mobile nueva.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo puedo bloquear mi equipo y mi línea en caso de robo o extravío?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Te recomendamos comunicarte inmediatamente con nosotros y tener a la mano el nombre completo del titular de la línea, tu número telefónico a 10 dígitos y el número IMEI de tu dispositivo.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo puedo reemplazar mi tarjeta SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Adquiere una nueva tarjeta SIM Cool Mobile y antes de activarla comunícate con nosotros para solicitar la recuperación de tu número, recuerda tener a la mano el nombre completo del titular de la línea y tu número Cool Mobile a 10 dígitos.</p></div></div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="faq-item">
+                            <button class="accordion"><span>Compatibilidad</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Qué es y por qué me piden el IMEI?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>El IMEI es el número que identifica a cada dispositivo móvil y nos ayuda a saber si tu dispositivo es compatible con la red Cool Mobile para asegurarnos de que tu experiencia sea magnífica.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo obtengo el IMEI de mi dispositivo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Hay varias formas:</p>
+                                            <ul>
+                                                <li>Marca <strong>*#06#</strong> en tu dispositivo móvil. El número IMEI se mostrará en tu pantalla.</li>
+                                                <li>En tu dispositivo entra a Configuración o Ajustes, después selecciona la opción de "Información del dispositivo" o "Acerca del teléfono" y se mostrará el IMEI.</li>
+                                                <li>En el empaque de tu dispositivo localiza la etiqueta que contiene el IMEI.</li>
+                                                <li>Retira la tapa y pila trasera de tu dispositivo (si aplica) y busca la etiqueta que contiene el IMEI.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Con qué sistema operativo es compatible la tarjeta SIM y eSIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Cool Mobile tiene compatibilidad con los sistemas operativos iPhone (iOS) y Android.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo sé si mi teléfono es compatible con la red Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Ingresa al siguiente enlace: <a href="https://www.coolmobile.mx" target="_blank">Compatibilidad</a> y escribe el número de IMEI de tu dispositivo para verificar si es compatible.<br>⚠️ <strong>IMPORTANTE:</strong> En caso de que tu equipo móvil no sea compatible, será necesario usar algún otro dispositivo que sí lo sea.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Qué dispositivos son compatibles con eSIM?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Al consultar la compatibilidad de un equipo dentro del portal <a href="https://www.coolmobile.mx" target="_blank">Compatibilidad</a>, se mostrará si el equipo es compatible con eSIM. En caso de que no cuentes con el IMEI de tu dispositivo, consulta la lista de dispositivos compatibles con eSIM en el siguiente enlace: <a href="https://www.coolmobile.mx" target="_blank">Equipos compatibles con eSIM</a>.</p></div></div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="faq-item">
+                            <button class="accordion"><span>Activación</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Cómo activo mi tarjeta SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ol>
+                                                <li>Descarga e instala la aplicación Mi Cool Mobile.</li>
+                                                <li>Ábrela y selecciona la opción <strong>Activar SIM</strong>.</li>
+                                                <li>Selecciona o ingresa tu Número de Orden.</li>
+                                                <li>Ingresa el número ICC de tu tarjeta SIM Cool Mobile.</li>
+                                                <li>Selecciona si quieres <strong>Conservar tu número (Portabilidad)</strong> o <strong>Línea nueva</strong>.</li>
+                                                <li>En caso de solicitar Portabilidad, sigue los pasos de la sección correspondiente.</li>
+                                                <li>Si vas a usar la tarjeta SIM Cool Mobile como Línea nueva, selecciona esa opción y presiona Continuar.</li>
+                                                <li>La aplicación te indicará que la tarjeta SIM ha sido activada.</li>
+                                                <li>¡Listo! Ya puedes insertar la tarjeta SIM Cool Mobile en tu dispositivo.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo instalo mi eSIM Cool Mobile en Android?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ol>
+                                                <li>Después de comprar tu eSIM, recibirás un correo electrónico.</li>
+                                                <li>Abre el correo y encuentra tu Número de Orden.</li>
+                                                <li>Descarga la aplicación Mi Cool Mobile.</li>
+                                                <li>Ábrela y selecciona la opción <strong>Activa tu línea</strong>.</li>
+                                                <li>Ingresa el número de orden que recibiste por correo.</li>
+                                                <li>Escanea el código QR en el dispositivo que deseas instalar tu eSIM (también puedes descargar o compartir el QR para escanearlo después).</li>
+                                                <li>Selecciona <strong>Confirmar</strong> o <strong>Activar</strong>.</li>
+                                                <li>¡Listo! Se debe mostrar la eSIM agregada y activa.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo instalo mi eSIM Cool Mobile en iPhone(iOS)?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ol>
+                                                <li>Después de comprar tu eSIM, recibirás un correo electrónico.</li>
+                                                <li>Abre el correo y encuentra tu Número de Orden.</li>
+                                                <li>Descarga la aplicación Mi Cool Mobile.</li>
+                                                <li>Ábrela y selecciona la opción <strong>Activa tu línea</strong>.</li>
+                                                <li>Ingresa el número de orden que recibiste por correo.</li>
+                                                <li>Si estás usando el teléfono donde deseas instalar la eSIM presiona el botón “Activar eSIM en este equipo”, o bien descarga o comparte el QR para escanearlo después.</li>
+                                                <li>Selecciona <strong>Confirmar</strong> o <strong>Activar</strong>.</li>
+                                                <li>¡Listo! Se debe mostrar la eSIM agregada y activa.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cuándo puedo empezar a utilizar mi tarjeta SIM o eSIM Cool Mobile?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>
+                                        Después de activar e insertar la tarjeta SIM o instalar la eSIM Cool Mobile en tu dispositivo, comenzarás a recibir los SMS de activación y bienvenida, así como el SMS del paquete que hayas elegido al comprarla.
+                                        <br><br>
+                                        Tu dispositivo configurará de forma automática el APN para poder navegar en internet; en caso de no ser así, puedes consultar las guías en la sección de <strong>Configuraciones</strong>.
+                                        <br>
+                                        Para realizar llamadas, se activará la función VoLTE de forma automática; si tienes problemas, revisa la sección de <strong>Configuraciones</strong>.
+                                        <br>
+                                        Finalmente, es importante activar la función de Roaming o Itinerancia para conectarte de forma automática a otra red cuando no haya señal de Cool Mobile.
+                                    </p></div></div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="faq-item">
+                            <button class="accordion"><span>Portabilidad</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Cuáles son los pasos para realizar la portabilidad de mi número?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ol>
+                                                <li><strong>Adquiere tu SIM:</strong> Cómprala en nuestra página web www.CoolMobile.mx o llama al 56 4463 6321.</li>
+                                                <li><strong>Obtén tu NIP de portabilidad:</strong> Antes de instalar tu nueva SIM, desde tu chip actual, marca al <strong>051</strong> o envía un SMS con la palabra <strong>NIP</strong> al mismo número (051). Recibirás un código de 4 dígitos. <em>Nota: Este código tiene una vigencia de 5 días naturales.</em></li>
+                                                <li><strong>Instala la SIM Cool Mobile:</strong> Pon tu celular en modo avión o apágalo. Inserta la nueva SIM y luego quita el modo avión o enciende tu celular.</li>
+                                                <li><strong>Recibe la bienvenida:</strong> Espera de 2 a 3 minutos. Recibirás un SMS de bienvenida a la red LTE de Cool Mobile.</li>
+                                                <li><strong>Guarda tu número temporal:</strong> Recibirás un segundo SMS con un número de teléfono temporal. ¡Lo necesitarás para el siguiente paso!</li>
+                                                <li><strong>Ingresa tus datos:</strong> Con todo lo anterior listo, ya puedes ingresar los 3 datos requeridos en nuestra página web o app para completar el proceso.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué 3 datos necesito para completar mi solicitud?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Para poder iniciar tu proceso de portabilidad necesitas tener a la mano la siguiente información:</p>
+                                            <ul>
+                                                <li><strong>NIP:</strong> El código de 4 dígitos que recibiste del 051.</li>
+                                                <li><strong>Número Temporal:</strong> El número que recibiste por SMS después de instalar la SIM de Cool Mobile.</li>
+                                                <li><strong>Número a Conservar:</strong> El número de teléfono que deseas traer a Cool Mobile.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Hay algún horario específico para solicitar la portabilidad?</span></button>
+                                    <div class="panel-nested">
+                                         <div class="panel-content-wrapper">
+                                            <p>
+                                                Sí. Para garantizar que tu número quede activo el mismo día, debes ingresar tus datos en la página web <strong>de lunes a viernes antes de las 3:00 p.m.</strong>
+                                                <br>Si la solicitud se realiza después de este horario, o durante el fin de semana, la portabilidad se aplicará hasta el siguiente día hábil.
+                                            </p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Puedo solicitar la portabilidad desde una app?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>
+                                                ¡Sí! También puedes solicitar tu portabilidad de forma sencilla desde nuestra aplicación oficial <strong>Cool Mobile</strong>. Búscala y descárgala desde la App Store para iOS o Google Play Store para Android.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="faq-item">
+                            <button class="accordion"><span>Configuraciones</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Qué es el APN y para qué sirve?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Las siglas APN hacen referencia al término inglés Access Point Name (Nombre del Punto de Acceso).</p>
+                                            <p>Cada compañía telefónica tiene su propio APN y es necesario configurarlo para que tu celular tenga acceso a Internet. La mayoría de las veces, este proceso se realiza automáticamente después de activar la tarjeta SIM e introducirla en el dispositivo.</p>
+                                            <p>En otras ocasiones, hay que hacerlo manualmente, pero es un proceso sencillo que solo tomará un par de minutos.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo configuro manualmente el APN en mi dispositivo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Instrucciones para dispositivos Android:</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración o Ajustes.</li>
+                                                <li>Selecciona Conexiones o Redes de Internet.</li>
+                                                <li>Ingresa en Redes móviles.</li>
+                                                <li>Selecciona Opciones avanzadas.</li>
+                                                <li>Elige la opción Nombres de puntos de acceso o APN.</li>
+                                                <li>Selecciona el símbolo “+” para agregar una nueva APN.</li>
+                                                <li>Escribe el nombre <strong>Cool Mobile</strong>.</li>
+                                                <li>Coloca en APN: <strong>internet.mvno163.com</strong>.</li>
+                                                <li>Selecciona los tres puntos de la parte superior y después Agregar o Guardar.</li>
+                                                <li>Finalmente, selecciona el APN Cool Mobile para que se active.</li>
+                                            </ol>
+                                            <p><strong>Instrucciones para dispositivos iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración.</li>
+                                                <li>Selecciona Red celular o Datos celulares.</li>
+                                                <li>Ingresa en el apartado de Red de datos celulares.</li>
+                                                <li>Escribe el APN <strong>internet.mvno163.com</strong> en el campo de Punto de acceso de las secciones Datos celulares y Compartir internet.</li>
+                                            </ol>
+                                            <p>⚠️ <strong>IMPORTANTE:</strong> Solo podrás editar o ver tu APN en iPhone si el dispositivo está liberado. Si no puedes modificar la configuración de APN, comunícate con el operador móvil donde lo adquiriste para que lo libere.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es VoLTE y para qué sirve?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>VoLTE (Voice Over LTE) es la función que permite realizar llamadas de voz a través de la red LTE/4G.</p>
+                                            <p>Ofrece mayor calidad de audio y la posibilidad de seguir conectado a internet mientras realizas una llamada.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo activo la opción VoLTE en mi dispositivo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración o Ajustes.</li>
+                                                <li>Selecciona Conexiones o Redes de Internet.</li>
+                                                <li>Ingresa en Redes móviles.</li>
+                                                <li>Activa la opción VoLTE, también puede aparecer como Llamadas 4G o LTE.</li>
+                                            </ol>
+                                            <p><strong>Xiaomi:</strong></p>
+                                            <ol>
+                                                <li>Marca en la app de teléfono: <strong>*#*#86583#*#*</strong>.</li>
+                                                <li>Aparecerá un mensaje confirmando que se activó la opción VoLTE.</li>
+                                                <li>Ve a Configuración > Tarjetas SIM y redes móviles.</li>
+                                                <li>Selecciona la SIM de Cool Mobile.</li>
+                                                <li>Activa la opción Usar VoLTE.</li>
+                                            </ol>
+                                            <p><strong>iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración > Red celular o Datos celulares.</li>
+                                                <li>Selecciona Opciones > Voz y datos.</li>
+                                                <li>Activa la opción VoLTE.</li>
+                                                <li>Selecciona OK cuando aparezca la advertencia.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el Roaming o Itinerancia y para qué sirve?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                             <p>El Roaming o Itinerancia se utiliza cuando te conectas a una red distinta a la de tu operador móvil, ya sea para hacer o recibir llamadas, o para navegar con tus datos móviles.</p>
+                                             <p>En Cool Mobile, al conectarte mediante Roaming, tu red aparecerá como “Cool Mobile R”.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo activo el Roaming o Itinerancia en mi dispositivo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración o Ajustes.</li>
+                                                <li>Selecciona Conexiones o Redes de Internet.</li>
+                                                <li>Ingresa en Redes móviles.</li>
+                                                <li>Activa la opción Roaming o Itinerancia.</li>
+                                            </ol>
+                                            <p><strong>iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración > Red celular o Datos celulares.</li>
+                                                <li>Ingresa en Opciones.</li>
+                                                <li>Activa Roaming de datos.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el Modo de Red Preferido y para qué sirve?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>El Modo de Red Preferido te permite elegir la tecnología de conexión de tu dispositivo:</p>
+                                            <ul>
+                                                <li>2G (GPRS, EDGE)</li>
+                                                <li>3G (HSPA, UMTS)</li>
+                                                <li>4G (LTE)</li>
+                                            </ul>
+                                            <p>Para que la SIM o eSIM de Cool Mobile funcione correctamente, selecciona siempre la opción que incluya 4G o LTE.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo selecciono el Modo de Red Preferido correcto?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración o Ajustes.</li>
+                                                <li>Selecciona Conexiones o Redes de Internet.</li>
+                                                <li>Ingresa en Redes móviles.</li>
+                                                <li>Selecciona Tipo de red o Modo de red.</li>
+                                                <li>Elige la opción que incluya 4G o LTE.</li>
+                                            </ol>
+                                            <p><strong>iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración > Red celular o Datos celulares.</li>
+                                                <li>Ingresa en Opciones > Voz y datos.</li>
+                                                <li>Activa LTE.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es un Forzado de Red y para qué sirve?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>El Forzado de Red es útil en caso de fallas de señal.</p>
+                                            <p>Tu dispositivo buscará las redes disponibles y podrás seleccionar manually la de tu operador. En Cool Mobile, podrás elegir cualquier red que aparezca como “Cool Mobile” o “Cool Mobile R”.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo hago un Forzado de Red?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración o Ajustes.</li>
+                                                <li>Selecciona Conexiones o Redes de Internet.</li>
+                                                <li>Ingresa en Redes móviles.</li>
+                                                <li>Desactiva la opción Seleccionar red automáticamente.</li>
+                                                <li>Espera a que aparezcan las redes disponibles.</li>
+                                                <li>Selecciona Cool Mobile o Cool Mobile R.</li>
+                                            </ol>
+                                            <p><strong>iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Entra a Configuración > Red celular o Datos celulares.</li>
+                                                <li>Ingresa en Selección de red.</li>
+                                                <li>Desactiva Automática.</li>
+                                                <li>El dispositivo buscará redes disponibles.</li>
+                                                <li>Selecciona Cool Mobile o Cool Mobile R.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Por qué es importante tener mi dispositivo actualizado?</span></button>
+                                    <div class="panel-nested"><div class="panel-content-wrapper"><p>Las actualizaciones mejoran el funcionamiento, la seguridad y corrigen errores de tu dispositivo.</p></div></div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo reviso si mi dispositivo necesita actualizaciones?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Haz una copia de seguridad antes de actualizar.</li>
+                                                <li>Ve a Configuración > Acerca del dispositivo o Sistema.</li>
+                                                <li>Selecciona Actualizar sistema.</li>
+                                                <li>Espera a que busque actualizaciones y sigue las instrucciones.</li>
+                                            </ol>
+                                            <p><strong>iPhone (iOS):</strong></p>
+                                            <ol>
+                                                <li>Haz una copia de seguridad antes de actualizar.</li>
+                                                <li>Ve a Configuración > General > Actualización de software.</li>
+                                                <li>Espera a que busque actualizaciones y sigue las instrucciones.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué es el centro de SMS (SMSC)?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>El SMSC (Short Message Service Center) es el centro de servicio de mensajes cortos, encargado de enviar y recibir SMS en la red móvil.</p>
+                                            <p>Actualmente, solo puede configurarse en dispositivos Android.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Cómo reviso si tengo el número de centro de mensajes correcto?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p><strong>Android:</strong></p>
+                                            <ol>
+                                                <li>Abre la aplicación de Mensajes (SMS).</li>
+                                                <li>Selecciona los tres puntos superiores o el ícono de engrane.</li>
+                                                <li>Ingresa en Configuración > Ajustes avanzados.</li>
+                                                <li>Busca la opción SMSC.</li>
+                                                <li>Verifica que esté configurado el número: <strong>+525584611810</strong>.</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="faq-item">
+                            <button class="accordion"><span>Soporte técnico</span></button>
+                            <div class="panel">
+                                <div class="nested-faq">
+                                    <button class="accordion-nested"><span>¿Qué hago si realicé una recarga a mi línea Cool Mobile y no se ve reflejado mi saldo?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ul>
+                                                <li>Revisa que no tengas activo el modo avión en tu celular.</li>
+                                                <li>Verifica si tienes cobertura en la zona donde te encuentras.</li>
+                                                <li>Intenta activar el modo avión durante 30 segundos y luego desactívalo.</li>
+                                                <li>Retira la tarjeta SIM Cool Mobile durante un minuto y vuelve a colocarla hasta que se conecte nuevamente a nuestra red.</li>
+                                                <li>Confirma que la recarga se haya aplicado al número de teléfono correcto.</li>
+                                                <li>Si tu SIM o eSIM ha estado sin uso por un tiempo y tienes dudas sobre el estado de tu línea, comunícate con nosotros.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Por qué mi celular no reconoce la SIM Cool Mobile?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <p>Puede deberse a varios factores:</p>
+                                            <ul>
+                                                <li>La tarjeta SIM Cool Mobile no fue insertada correctamente.</li>
+                                                <li>Tu equipo no es compatible con la red Cool Mobile.</li>
+                                                <li>Tu equipo está bloqueado por la compañía móvil donde lo adquiriste.</li>
+                                                <li>La tarjeta SIM Cool Mobile no está activada.</li>
+                                                <li>La tarjeta SIM Cool Mobile está dañada.</li>
+                                            </ul>
+                                            <p>👉 Si ya probaste la SIM en otro equipo y el problema persiste, comunícate con nosotros.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>¿Qué hago si ya inserté mi SIM Cool Mobile y no puedo hacer uso del servicio?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ul>
+                                                <li>Asegúrate de que tu teléfono sea compatible.</li>
+                                                <li>Revisa que cuentes con saldo suficiente.</li>
+                                                <li>Verifica que tengas activa la opción de Roaming o Itinerancia.</li>
+                                                <li>Revisa que los Datos móviles estén activados.</li>
+                                                <li>Si no puedes hacer llamadas, confirma que tengas la opción VoLTE activa.</li>
+                                                <li>Configura tu APN.</li>
+                                                <li>Activa el modo avión durante 30 segundos y desactívalo.</li>
+                                                <li>Reinicia tu dispositivo y espera a que se conecte a la red.</li>
+                                            </ul>
+                                            <p>👉 Si el problema persiste, comunícate con nosotros.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>Tengo señal, pero no puedo navegar. ¿Qué puedo hacer?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ul>
+                                                <li>Verifica que cuentes con saldo suficiente.</li>
+                                                <li>Asegúrate de que la opción de Roaming o Itinerancia esté activa.</li>
+                                                <li>Revisa que los Datos móviles estén activados.</li>
+                                                <li>Confirma que el APN esté configurado correctamente.</li>
+                                                <li>Verifica que la página web o aplicación que intentas abrir no esté fallando.</li>
+                                                <li>Activa el modo avión durante 30 segundos y desactívalo.</li>
+                                                <li>Reinicia tu dispositivo y espera a que se conecte a la red.</li>
+                                            </ul>
+                                            <p>👉 Si el problema persiste, comunícate con nosotros.</p>
+                                        </div>
+                                    </div>
+                
+                                    <button class="accordion-nested"><span>No puedo realizar ni recibir llamadas. ¿Qué puedo hacer?</span></button>
+                                    <div class="panel-nested">
+                                        <div class="panel-content-wrapper">
+                                            <ul>
+                                                <li>Revisa que cuentes con saldo suficiente.</li>
+                                                <li>Verifica que tengas activa la opción de Roaming o Itinerancia.</li>
+                                                <li>Confirma que la opción VoLTE esté activa.</li>
+                                                <li>Asegúrate de que el número que marcas sea el correcto.</li>
+                                                <li>Verifica que la persona que intenta llamarte no esté en tu lista de números bloqueados.</li>
+                                                <li>Activa el modo avión durante 30 segundos y desactívalo.</li>
+                                                <li>Reinicia tu dispositivo y espera a que se conecte a la red.</li>
+                                            </ul>
+                                            <p>👉 Si el problema persiste, comunícate con nosotros.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+    <!-- FOOTER BEIGE -->
+    <footer class="bg-[#ddc798] pt-10 footer-nuevo">
+        <div class="container mx-auto px-4 pb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+                <div class="w-full lg:w-1/4">
+                   <div class="p-0 text-center lg:text-left">
+                        <a href="index.html">
+                      <img src="logo.png" alt="AWAN TECHNOLOGY SERVICES" class="h-24 object-contain mx-auto lg:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/200x80/transparent/840033?text=AWAN+TECH';">
+                          </a>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/5">
+                   <h4>Consulta</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/telefonia_simcard/">Tarjeta SIM</a></li>
+                      <li><a href="/faqs/">Preguntas Frecuentes</a></li>
+                      <li><a href="https://tarifas.ift.org.mx/ift_visor/">Buscador de tarifas IFT</a></li>
+                      <li><a href="/portabilidad/">Portabilidad</a></li>
+                   </ul>
+                </div>
+                <div class="w-full lg:w-1/5">
+                   <h4>Legales</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/avisos-de-privacidad/" class="font-bold text-black">Aviso de privacidad Integral</a></li>
+                      <li><a href="/politica-de-uso-justo/">Política de Uso Justo</a></li>
+                      <li><a href="/terminos-de-condiciones/">Términos y Condiciones</a></li>
+                   </ul>
+                </div>
+                <div class="w-full lg:w-1/3 flex flex-col md:flex-row gap-8">
+                    <div class="flex-1">
+                        <h4>Ventas</h4>
+                        <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5644636321">
+                            <span class="font-bold text-black text-lg">564 463 6321</span>
+                            </a>
+                        </div>
+                        <p class="text-xs text-gray-500">Lunes a Viernes de 8:00 a 20:00</p>
+                        <p class="text-xs text-gray-500">Sábado a domigo de 9:00 a 16:00</p>
+                    </div>
+                    <div class="flex-1">
+                        <h4>Atención a Clientes</h4>
+                         <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5593311394">
+                            <span class="font-bold text-black text-lg">559 331 1394</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-[#640d2e] text-white py-4 text-center text-sm">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 AWAN TECHNOLOGY SERVICES Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chat Bubble & Modal -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <div x-show="chatOptionsOpen" class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#ae0747] rounded-lg shadow-xl py-2" @click.outside="chatOptionsOpen = false" x-cloak>
+            <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#840033]">Asistente Virtual</button>
+        </div>
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#ffffff] hover:bg-[#f0f0f0] text-[#ae0747] rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+            <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+    <div x-show="isChatOpen" class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" x-cloak>
+        <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+        <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#ffffff] title-outline">Asistente Virtual</h3>
+                <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+             <div id="chatbox" class="flex-grow"><p class="message-bot"><strong>Agente:</strong> ¡Hola! ¿En qué puedo ayudarte?</p></div>
+             <div class="flex items-center mt-4"><input type="text" id="userInput" placeholder="Escribe..." class="flex-grow mr-2"><button id="chat-button" onclick="sendMessage()">Enviar</button></div>
+         </div>
+    </div>
+
+    <!-- JAVASCRIPT PARA ACORDEONES -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function handleAccordionClick(button, panel, allButtons) {
+                const isActive = button.classList.contains('active');
+                allButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    const p = btn.nextElementSibling;
+                    if (p && (p.classList.contains('panel') || p.classList.contains('panel-nested'))) {
+                        p.style.maxHeight = null;
+                    }
+                });
+                if (!isActive) {
+                    button.classList.add('active');
+                    if (panel) { panel.style.maxHeight = panel.scrollHeight + "px"; }
+                }
+            }
+
+            const mainAccordions = document.querySelectorAll('#awan-faq-widget .accordion');
+            mainAccordions.forEach(button => {
+                button.addEventListener('click', () => {
+                    const panel = button.nextElementSibling;
+                    handleAccordionClick(button, panel, mainAccordions);
+                });
+            });
+
+            const nestedAccordions = document.querySelectorAll('#awan-faq-widget .accordion-nested');
+            nestedAccordions.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const panel = button.nextElementSibling;
+                    const siblingAccordions = Array.from(button.parentElement.children).filter(child => child.classList.contains('accordion-nested'));
+                    handleAccordionClick(button, panel, siblingAccordions);
+                    const mainPanel = button.closest('.panel');
+                    if (mainPanel) {
+                        setTimeout(() => {
+                           if (mainPanel.style.maxHeight) { mainPanel.style.maxHeight = mainPanel.scrollHeight + "px"; }
+                        }, 310);
+                    }
+                });
+            });
+        });
+
+        // Scripts de Chat y Scroll
+        const apiKey = ""; // Insertar clave
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+        
+        // ... (Resto del código del chat y scroll igual que antes) ...
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('p');
+            messageDiv.classList.add('mb-2'); 
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; 
+            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
+        }
+
+        async function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage === '') return;
+            addMessage(userMessage, 'user');
+            userInput.value = '';
+            
+            // Simulación simple si no hay API Key configurada
+            setTimeout(() => {
+               const pBot = document.createElement('p');
+               pBot.className = 'message-bot mb-2';
+               pBot.innerHTML = `<strong>Agente:</strong> Gracias por tu mensaje. ¿En qué más puedo ayudarte con AWAN TECHNOLOGY SERVICES?`;
+               chatbox.appendChild(pBot);
+               chatbox.scrollTop = chatbox.scrollHeight;
+            }, 1000);
+        }
+
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            }
+        });
+    </script>
+</body>
+</html>

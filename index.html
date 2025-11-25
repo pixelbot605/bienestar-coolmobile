@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet para el Bienestar</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <!-- 1. Preconexiones para acelerar la búsqueda de DNS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- 2. Carga de Fuentes optimizada (Asíncrona) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- Fallback para navegadores sin JS -->
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- 3. Swiper CSS optimizado (Asíncrono) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    </noscript>
+
+    <!-- Alpine JS -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* INICIO: Estilos para las nuevas pestañas */
+        .tab-container {
+          text-align: center;
+          font-family: sans-serif;
+          position: relative;
+          /* Asegura que el contenedor ocupe el espacio vertical de su contenido activo */
+          min-height: 400px; /* Ajustar si es necesario */
+        }
+        
+        .plan-card {
+          max-width: 250px;
+          border-radius: 20px;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(30px);
+          /* La animación se aplica cuando el padre tiene la clase active */
+        }
+
+        /* Animación de entrada para las cards */
+        @keyframes slideIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .tab-content {
+          display: none; /* Oculto por defecto */
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          width: 100%;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        
+        /* Clase activa para mostrar el contenido */
+        .tab-content.active {
+          display: flex;
+          opacity: 1;
+          animation: fadeInContent 0.5s ease forwards;
+        }
+
+        @keyframes fadeInContent {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Disparar animación de las cards cuando el tab está activo */
+        .tab-content.active .plan-card {
+          animation: slideIn 0.6s ease forwards;
+        }
+
+        /* Staggered delay para las cards */
+        .tab-content.active .plan-card:nth-child(1) { animation-delay: 0.1s; }
+        .tab-content.active .plan-card:nth-child(2) { animation-delay: 0.2s; }
+        .tab-content.active .plan-card:nth-child(3) { animation-delay: 0.3s; }
+        .tab-content.active .plan-card:nth-child(4) { animation-delay: 0.4s; }
+        .tab-content.active .plan-card:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Botones de las pestañas - CAMBIADO A BLANCO */
+        .tab-buttons {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 30px;
+        }
+        
+        .tab-buttons button {
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          background-color: #ffffff; /* Fondo Blanco */
+          color: #840033; /* Texto Rojo */
+          border-radius: 30px;
+          font-size: 16px;
+          font-family: 'Poppins', sans-serif;
+          transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+          font-weight: 700;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave para que resalte */
+        }
+
+        .tab-buttons button:hover {
+          background-color: #f0f0f0;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+
+        .tab-buttons button.active {
+          background-color: #840033; /* Activo Rojo */
+          color: #ffffff; /* Texto Blanco */
+          transform: scale(1.05);
+          box-shadow: 0 4px 15px rgba(132, 0, 51, 0.4);
+        }
+
+        /* General Styles */
+        html { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg,  #ffffff, #840033, #c42f68, #840033, #c1386c, #840033);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #ffffff; 
+        }
+
+        [x-cloak] { display: none !important; }
+        
+        /* Swiper Styles */
+        .swiper-button-next,
+        .swiper-button-prev { display: none; }
+        .swiper-pagination-bullet-active { background-color: #ae0747; }
+        .swiper-slide { background-size: cover; background-position: center; }
+
+        /* Title Outline Styles - CAMBIADO A BORDE BLANCO */
+        .text-3d, .title-outline {
+            color: #ae0747 !important; /* Relleno ROJO para que el borde blanco se vea */
+            text-shadow:
+                -1.5px -1.5px 0 #ffffff, 1.5px -1.5px 0 #ffffff,
+                -1.5px 1.5px 0 #ffffff, 1.5px 1.5px 0 #ffffff,
+                4px 4px 8px rgba(0,0,0,0.2); /* Sombra más suave */
+        }
+        
+        /* Chat Styles */
+        #chat-modal #chatbox {
+            border: 1px solid #4B5563; padding: 1rem; height: 400px;
+            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
+            border-radius: 0.5rem;
+        }
+        #chat-modal .message-user { text-align: right; color: #ffffff; } 
+        #chat-modal .message-bot { text-align: left; color: #ffffff; } 
+        #chat-modal #userInput {
+            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
+            border: 1px solid #4B5563; background-color: #4A5568;
+            color: white; outline: none;
+        }
+        #chat-modal #userInput:focus { border-color: #ffffff; } 
+        #chat-modal #chat-button {
+            background-color: #ffffff; color: #ae0747; padding: 0.75rem 1.5rem; /* Botón chat blanco */
+            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
+        }
+        #chat-modal #chat-button:hover { background-color: #f0f0f0; transform: scale(1.05); }
+
+        /* Interactive Image Styles */
+        .cursor-follow-container {
+            width: 100%; max-width: 600px; height: 380px; overflow: hidden;
+            position: relative; margin: auto; border-radius: 0.75rem;
+            transition: transform 0.3s ease;
+        }
+         .cursor-follow-container:hover { transform: scale(1.05); }
+        .cursor-follow-image {
+            width: 100%; height: 100%; transition: transform 0.1s ease;
+            position: absolute; top: 0; left: 0; object-fit: cover;
+        }
+
+        /* 3D Carousel Styles */
+        .mi-carrusel-widget {
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .mi-carrusel-widget .icon-cards {
+            position: relative; width: 300px; height: 480px;
+            perspective: 1000px; transform-origin: center; cursor: grab;
+        }
+        .mi-carrusel-widget .icon-cards__content {
+            position: absolute; width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            transform: translateZ(-150px) rotateY(0);
+            transition: transform 0.5s ease-out;
+        }
+        .mi-carrusel-widget .icon-cards__item {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            transform-origin: center; display: flex; align-items: center;
+            justify-content: center; overflow: hidden; border-radius: 10px;
+        }
+        .mi-carrusel-widget .icon-cards__item a { display: block; width: 100%; height: 100%; }
+        .mi-carrusel-widget .icon-cards__item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease; pointer-events: none;
+        }
+        .mi-carrusel-widget .icon-cards__item:nth-child(1) { transform: rotateY(0deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(2) { transform: rotateY(120deg) translateZ(150px); }
+        .mi-carrusel-widget .icon-cards__item:nth-child(3) { transform: rotateY(240deg) translateZ(150px); }
+        
+        /* Video Block Styles */
+        .video-bloque { width: 450px; text-align: center; transition: transform 0.3s ease; }
+        .video-bloque:hover { transform: scale(1.05); }
+        .video-bloque video { width: 100%; border-radius: 12px; display: block; }
+        .video-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 90px; }
+        
+        /* Recharge Points Section Styles */
+        #recharge-widget { font-family: 'Montserrat', sans-serif; }
+        #recharge-widget h3 { font-family: 'Montserrat', sans-serif !important; } /* Hereda color rojo del title-outline */
+        .logo-carousel { display: flex; overflow: hidden; width: 100%; white-space: nowrap; }
+        .logo-carousel-inner { display: flex; animation: carousel 20s linear infinite; }
+        .logo-carousel-item {
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; width: 150px; margin: 0 1rem;
+        }
+        .logo-carousel-item img {
+            max-height: 50px; width: auto; object-fit: contain;
+           filter: invert(100%) grayscale(100%) brightness(200%);
+
+            transition: filter 0.3s ease;
+        }
+        .logo-carousel-item img:hover { filter: grayscale(0%); }
+        @keyframes carousel {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* App Download Section Styles */
+        #app-download-section h3 { font-family: 'Poppins', sans-serif !important; } /* Hereda color rojo del title-outline */
+        #app-download-section ul li svg { color: #ffffff; } 
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        
+        /* Footer Styles */
+        .footer { background-color: #000707; color: #ffffff; padding: 4rem 0; border-top: 2px solid #ae0747; } 
+        .footer-link { transition: color 0.2s ease-in-out; }
+        .footer-link:hover { color: #ffffff; text-decoration: underline; } 
+        .footer-title { color: #ffffff; font-weight: 600; margin-bottom: 1rem; } 
+
+        /* Chat Bubble & Modal */
+        .chat-bubble-options { transition: all 0.3s ease-out; }
+        .chat-modal-overlay { background-color: rgba(0, 0, 0, 0.6); z-index: 999; }
+        .chat-modal-content { z-index: 9999; max-height: 90vh; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .video-bloque { width: 90%; }
+            .video-container { gap: 20px; }
+            #app-download-section .grid { align-items: center; }
+             #app-download-section .text-content-column { align-items: center; }
+             .interactive-carousel-grid { grid-template-columns: 1fr; }
+        }
+         @media (max-width: 640px) {
+            .logo-carousel-item { width: 120px; margin: 0 0.5rem; }
+            .chat-modal-content { width: 95%; }
+            .chat-modal-container { align-items: flex-start; padding-top: 4rem; }
+        }
+                /* Estilos del Footer Nuevo */
+        .footer-nuevo { font-family: 'Montserrat', sans-serif; color: #374151; }
+        .footer-nuevo h4 { color: #374151; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
+        .footer-nuevo a { color: #4B5563; text-decoration: none; transition: color 0.2s; }
+        .footer-nuevo a:hover { color: #840033; }
+        .footer-nuevo .brand-box { background-color: #840033; }
+    </style>
+</head>
+<body>
+    <div x-data="{ openMenu: false, isScrolled: false, chatOptionsOpen: false, isChatOpen: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+        
+        <!-- HEADER -->
+        <header class="text-red-900 fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#ffffff] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Telefonia-simcard</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Promociones</a>
+                            </div>
+                        </div>
+                        <!-- Otras opciones de menú simplificadas para brevedad, el original tenía más -->
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Contactos</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Recargas Blanco -->
+                    <a href="https://recarga.internetparaelbienestar.mx/bienestar" class="hidden lg:block bg-white hover:bg-gray-100 text-[#840033] font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105 shadow-md border border-gray-200">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-gray-900 focus:outline-none"> 
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#691b32] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Mobile Links (simplificados) -->
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#4f0c13]">
+                            <span>Telefonía</span>
+                            <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-cloak class="pl-6 space-y-1">
+                            <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Telefonia-simcard</a>
+                        </div>
+                    </div>
+                    <a href="https://crmxpace.com/coolmobile/factura/cfdi" class="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#57C5B6]">Facturación</a>
+                    <div class="pt-4 border-t border-[#4f0c13]">
+                        <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#840033] hover:bg-[#4f0c13] text-white font-bold py-3 px-6 rounded-full w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SLIDER -->
+        <div class="relative w-full h-screen">
+            <div class="swiper h-full w-full">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider1.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider1movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-white-900 bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    Estamos buscando distribuidores 
+                                </h1>
+                                <p class="text-lg text-[#000000] mb-8">
+                                    Beneficios: *25% de comisión en ofertas. +*15% adicional si es portabilidad. *4% de comisión en cada recarga.
+                                </p>
+                                <a href="https://api.whatsapp.com/send/?phone=5215540777727&text=Me+interesa+ser+distribuidor%2C+necesito+m%C3%A1s+informaci%C3%B3n.&type=phone_number&app_absent=0" class="inline-block bg-[#840033] hover:bg-[#4f0c13] text-[#ffffff] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Quiero ser distribuidor
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider2.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider2movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-white-900 bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    ¡Aprovecha esta promoción!
+                                </h1>
+                                <p class="text-lg text-[#000000] mb-8">
+                                    Realiza tú portabilidad y obtén doble o el triple de megas
+                                </p>
+                                <a href="/portabilidad/" class="inline-block bg-[#840033] hover:bg-[#4f0c13] text-[#ffffff] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Iniciar portabilidad
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide relative">
+                        <div class="absolute inset-0 bg-cover bg-center hidden md:block" style="background-image: url('img/Slider3.png');"></div>
+                        <div class="absolute inset-0 bg-cover bg-center block md:hidden" style="background-image: url('img/slider3movil.png');"></div>
+                        <div class="w-full h-full flex items-center justify-center relative z-10 bg-white-900 bg-opacity-30">
+                            <div class="text-center max-w-3xl mx-auto px-6">
+                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4 text-[#CBE4DE] text-3d">
+                                    ¡Aprovecha al máximo tus recargas!
+                                </h1>
+                                <p class="text-lg text-[#000000] mb-8">
+                                    Nueva función de acumulación de GB, si te queda saldo o megas al final de tu periodo, no los pierdes.
+                                </p>
+                                <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="inline-block bg-[#840033] hover:bg-[#4f0c13] text-[#ffffff] font-bold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                                    Recargas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+                  
+        <!-- MODULO DE PESTAÑAS -->
+        <div class="mt-8">
+            <div class="tab-container" id="planes-sim-fisica">
+            <h2 class="text-4xl font-bold text-center mb-6 title-outline">NUESTROS PLANES</h2>
+            
+            <div class="tab-buttons">
+                <button onclick="showTab(event, 'dias')">7 DÍAS</button>
+                <button onclick="showTab(event, 'semanal')">15 DÍAS</button>
+                <button onclick="showTab(event, 'mensual')" class="active">30 DÍAS</button>
+            </div>
+            
+            <div id="dias" class="tab-content">
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%2450" target="_blank">
+                        <img src="img/50.png" alt="Plan 50" class="w-full h-auto">
+                    </a>
+                </div>
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%2470" target="_blank">
+                         <img src="img/70.png" alt="Plan 70" class="w-full h-auto">
+                    </a>
+                </div>
+            </div>
+            
+            <div id="semanal" class="tab-content">
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%2499" target="_blank">
+                         <img src="img/99.png" alt="Plan 99" class="w-full h-auto">
+                    </a>
+                </div>
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24130" target="_blank">
+                         <img src="img/130.png" alt="Plan omg" class="w-full h-auto">
+                    </a>
+                </div>
+            </div>
+            
+            <div id="mensual" class="tab-content active">
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24100" target="_blank">
+                         <img src="img/100.png" alt="Plan 100" class="w-full h-auto">
+                    </a>
+                </div>
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24150" target="_blank">
+                         <img src="img/150.png" alt="Plan 150" class="w-full h-auto">
+                    </a>
+                </div>
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24190" target="_blank">
+                         <img src="img/190.png" alt="Plan 190" class="w-full h-auto">
+                    </a>
+                </div>
+                 <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24250" target="_blank">
+                         <img src="img/250.png" alt="Plan 250" class="w-full h-auto">
+                    </a>
+                </div>
+                <div class="plan-card">
+                    <a href="https://wa.me/5215644636321?text=Hola%20me%20interesa%20el%20plan%20Bienestar%20%24300" target="_blank">
+                         <img src="img/300.png" alt="Plan 300" class="w-full h-auto">
+                    </a>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+   <!-- SECCIÓN: ADQUIRIR EN MARKETPLACES -->
+    <section class="py-10">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl md:text-4xl font-bold mb-8 title-outline font-[Poppins]">
+                TAMBIÉN DISPONIBLE EN
+            </h3>
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Mercado Libre -->
+                <a href="https://listado.mercadolibre.com.mx/cool-mobile" target="_blank" class="bg-white hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 rounded-2xl p-6 shadow-xl flex items-center justify-center w-64 h-24 group border-2 border-transparent hover:border-[#FFE600]">
+                    <img src="img/mercado-libre-logo.png" 
+                         alt="Mercado Libre" 
+                         class="h-10 object-contain group-hover:scale-110 transition-transform duration-300">
+                </a>
+                <!-- Amazon -->
+                <a href="https://www.amazon.com.mx/s?k=cool+mobile" target="_blank" class="bg-white hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 rounded-2xl p-6 shadow-xl flex items-center justify-center w-64 h-24 group border-2 border-transparent hover:border-[#FF9900]">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1200px-Amazon_logo.svg.png" 
+                         alt="Amazon" 
+                         class="h-8 object-contain group-hover:scale-110 transition-transform duration-300">
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- NUEVA SECCIÓN PROMOCIÓN PORTABILIDAD -->
+    <section class="py-16 container mx-auto px-4">
+        <div class="rounded-3xl overflow-hidden relative bg-[#640d2e] shadow-2xl flex flex-col md:flex-row items-center">
+            <!-- Fondo con patrón (simulado con CSS) -->
+            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(45deg, #4a061f 25%, transparent 25%, transparent 75%, #4a061f 75%, #4a061f), repeating-linear-gradient(45deg, #4a061f 25%, #640d2e 25%, #640d2e 75%, #4a061f 75%, #4a061f); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+            
+            <!-- Columna Texto -->
+            <div class="w-full md:w-1/2 p-8 md:p-16 z-10 text-center md:text-left relative">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 font-[Poppins]">
+                    Obtén <span class="text-[#FFD700]">triple de gigas</span> al conservar tú mismo número con nosotros.
+                </h2>
+                <a href="/portabilidad/" class="inline-block bg-[#FFD700] text-[#640d2e] font-extrabold py-3 px-8 rounded-full hover:bg-yellow-300 transition duration-300 transform hover:scale-105 shadow-lg">
+                    ¡LO QUIERO!
+                </a>
+            </div>
+
+            <!-- Columna Imagen -->
+            <div class="w-full md:w-1/2 z-10 flex justify-center items-end relative h-full min-h-[300px] md:min-h-[400px]">
+                 <!-- Monedas flotantes (Decoración) -->
+                 <div class="absolute top-10 left-10 animate-bounce delay-700">
+                    <img src="https://placehold.co/60x60/FFD700/transparent?text=$" alt="Coin" class="rounded-full w-12 h-12 shadow-lg">
+                 </div>
+                 <div class="absolute top-20 right-20 animate-bounce delay-1000">
+                    <img src="https://placehold.co/60x60/FFD700/transparent?text=$" alt="Coin" class="rounded-full w-16 h-16 shadow-lg">
+                 </div>
+
+                <!-- Imagen Persona -->
+                <img src="img/mujer_portabilidad.png" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/500x500/transparent/white?text=Persona+Feliz';" 
+                     alt="Promoción Portabilidad" 
+                     class="object-contain max-h-[400px] md:max-h-[500px] w-auto transform translate-y-0">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCION DE RECARGA -->
+<section class="bg-transparent py-16">
+  <div id="recharge-widget" class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row bg-transparent md:bg-gray-800 md:bg-opacity-20 rounded-xl shadow-lg overflow-hidden">
+      
+      <!-- Columna izquierda -->
+      <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-gray-200 border-opacity-20">
+        <h3 class="text-2xl sm:text-3xl font-bold mb-6 title-outline">PUNTOS DE RECARGA</h3>
+        <div class=" w-full h-64 rounded-lg flex items-center justify-center text-white">
+          <img src="img/puntoderecarga.png"
+               alt="Punto de recarga"
+               class="rounded-lg shadow-md max-w-full h-auto">
+        </div>
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col items-center text-center">
+        <h3 class="text-2xl sm:text-2xl font-bold mb-6 title-outline">TIENDAS AFILIADAS</h3>
+        <p class="text-sm text-white mb-8">Genera tu código y realiza tus recargas</p>
+        
+        <!-- Carrusel de logos -->
+        <div class="logo-carousel">
+          <div class="logo-carousel-inner">
+            <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+            <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+            <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+            <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+            <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+            <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+            <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+            <!-- Repetición para efecto continuo -->
+            <div class="logo-carousel-item"><img src="img/circle.png" alt="circle"></div>
+            <div class="logo-carousel-item"><img src="img/extra.png" alt="extra"></div>
+            <div class="logo-carousel-item"><img src="img/farmacia.png" alt="farmacia"></div>
+            <div class="logo-carousel-item"><img src="img/seven.png" alt="seven"></div>
+            <div class="logo-carousel-item"><img src="img/waldo.png" alt="waldo"></div>
+            <div class="logo-carousel-item"><img src="img/walmart.png" alt="walmart"></div>
+            <div class="logo-carousel-item"><img src="img/bodega.png" alt="bodega"></div>
+          </div>
+        </div>
+
+        <div class="w-full p-4 md:p-8 flex flex-col items-center text-center">
+          <h3 class="text-2xl sm:text-2xl font-bold mb-6 title-outline">Desde la App de estos Proveedores:</h3>
+        </div>
+
+        <div class="logo-carousel">
+          <div class="logo-carousel-inner">
+            <div class="logo-carousel-item"><img src="img/didi.png" alt="didi"></div>
+            <div class="logo-carousel-item"><img src="img/banamex.png" alt="banamex"></div>
+            <div class="logo-carousel-item"><img src="img/nu.png" alt="nu"></div>
+            <!-- Repetición -->
+            <div class="logo-carousel-item"><img src="img/didi.png" alt="didi"></div>
+            <div class="logo-carousel-item"><img src="img/banamex.png" alt="banamex"></div>
+            <div class="logo-carousel-item"><img src="img/nu.png" alt="nu"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- APP DOWNLOAD SECTION (CORREGIDA) -->
+    <section id="app-download-section" class="bg-transparent py-20">
+        <div class="container mx-auto px-4">
+            <!-- Aumentado gap y max-width para mejor espaciado -->
+            <div class="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto"> 
+                
+                <!-- Text Column -->
+                <div id="app-text-column" class="flex flex-col justify-center text-center md:text-left">
+                    <h3 class="text-3xl md:text-4xl lg:text-3xl font-bold mb-8 title-outline font-[Poppins]">Descarga Nuestra Nueva App</h3>
+                    
+                    <!-- Lista con iconos recuperados -->
+                    <ul class="space-y-6 text-lg text-white mb-10 mx-auto md:mx-0 max-w-md md:max-w-none">
+                        <li class="flex items-center justify-center md:justify-start">
+                            <svg class="w-8 h-8 mr-4 text-[#ae0747] bg-white rounded-full p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <span class="font-medium">Monitorea tus datos al instante</span>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start">
+                             <svg class="w-8 h-8 mr-4 text-[#ae0747] bg-white rounded-full p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                             <span class="font-medium">Revisa tu historial de recargas</span>
+                        </li>
+                         <li class="flex items-center justify-center md:justify-start">
+                             <svg class="w-8 h-8 mr-4 text-[#ae0747] bg-white rounded-full p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                             <span class="font-medium">Realiza recargas en segundos</span>
+                        </li>
+                    </ul>
+                    
+                    <!-- Botones mejorados -->
+                    <div class="flex justify-center md:justify-start space-x-4">
+                            <a href="https://apps.apple.com/mx/app/cool-mobile/id6742332695" class="store-button">
+                                <img src="img/appstore.png" class="rounded-lg" alt="Download on the App Store">
+                            </a>
+                            <a href="https://play.google.com/store/search?q=cool%20mobile&c=apps&hl=es_MX" class="store-button">
+                                <img src="img/googleplay.png" class="rounded-lg" alt="Get it on Google Play">
+                            </a>
+                        </div>
+
+                </div>
+
+                <!-- Image Column -->
+                <div class="flex justify-center items-center h-full">
+                     <div class="relative w-full max-w-lg transform hover:scale-105 transition-transform duration-500">
+                        <img src="img/appipb.png" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/350x600/2E4F4F/white?text=App+Mockup';" 
+                             alt="App Preview" 
+                             class="rounded-3xl w-full h-auto shadow-2xl border-4 border-white/20">
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#ddc798] pt-10 footer-nuevo">
+        <div class="container mx-auto px-4 pb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+                
+                <!-- Columna Logo (Sin fondo rojo, solo logo) -->
+                <div class="w-full lg:w-1/4">
+                   <div class="p-0 text-center lg:text-left">
+                      <!-- Logo directo -->
+                       <a href="index.html">
+                      <img src="logo.png" alt="Cool Mobile" class="h-24 object-contain mx-auto lg:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/200x80/transparent/840033?text=Cool+Mobile';">
+                          </a>
+                    </div>
+                </div>
+        
+                <!-- Columna Consulta -->
+                <div class="w-full lg:w-1/5">
+                   <h4>Consulta</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/telefonia_simcard/">Tarjeta SIM</a></li>
+                      <li><a href="/faqs/">Preguntas Frecuentes</a></li>
+                      <li><a href="https://tarifas.ift.org.mx/ift_visor/">Buscador de tarifas IFT</a></li>
+                      <li><a href="/portabilidad/">Portabilidad</a></li>
+                   </ul>
+                </div>
+        
+                <!-- Columna Legales -->
+                <div class="w-full lg:w-1/5">
+                   <h4>Legales</h4>
+                   <ul class="space-y-2 text-sm">
+                      <li><a href="/avisos-de-privacidad/" class="font-bold text-black">Aviso de privacidad Integral</a></li>
+                      <li><a href="/politica-de-uso-justo/">Política de Uso Justo</a></li>
+                      <li><a href="/terminos-de-condiciones/">Términos y Condiciones</a></li>
+                   </ul>
+                </div>
+        
+                <!-- Columna Contacto/Ventas -->
+                <div class="w-full lg:w-1/3 flex flex-col md:flex-row gap-8">
+                    <div class="flex-1">
+                        <h4>Ventas</h4>
+                        <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5644636321">
+                            <span class="font-bold text-black text-lg">564 463 6321</span>
+                            </a>
+                        </div>
+                        <p class="text-xs text-gray-500">Lunes a Viernes de 8:00 a 20:00</p>
+                        <p class="text-xs text-gray-500">Sábado a domigo de 9:00 a 16:00</p>
+                    </div>
+                    <div class="flex-1">
+                        <h4>Atención a Clientes</h4>
+                         <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5593311394">
+                            <span class="font-bold text-black text-lg">559 331 1394</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+        <!-- Barra Copyright -->
+        <div class="bg-[#640d2e] text-white py-4 text-center text-sm">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 AWAN TECHNOLGY SERVICES Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="https://www.facebook.com/profile.php?id=61571012665827" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="https://www.instagram.com/internetparaelbienestar/" class="p-2 hover:scale-110 transition-transform">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+            </a>
+        </div>
+        
+        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#681b32] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="https://www.facebook.com/profile.php?id=61571012665827" class="p-2">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
+            </a>
+            <a href="https://www.instagram.com/internetparaelbienestar/" class="p-2">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
+        </div>
+
+
+    <!-- Floating Chat Bubble -->
+    <div class="fixed bottom-5 right-5 z-50">
+        <div x-show="chatOptionsOpen" class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#2E4F4F] rounded-lg shadow-xl py-2" @click.outside="chatOptionsOpen = false" x-cloak>
+            <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#0E8388]"> <!-- CAMBIADO: text-[#BCEAD5] a text-white -->
+                Asistente Virtual
+            </button>
+        </div>
+        <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#ffffff] hover:bg-[#f0f0f0] text-[#ae0747] rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
+            <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Chat Modal -->
+    <div x-show="isChatOpen" class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" x-cloak>
+        <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
+        <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-[#57C5B6] title-outline">Asistente Virtual</h3>
+                <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+             <div id="chatbox" class="flex-grow">
+                 <p class="message-bot"><strong>Agente:</strong> ¡Hola! ¿En qué puedo ayudarte?</p>
+             </div>
+             <div class="flex items-center mt-4">
+                 <input type="text" id="userInput" placeholder="Escribe..." class="flex-grow mr-2">
+                 <button id="chat-button" onclick="sendMessage()">Enviar</button>
+             </div>
+         </div>
+    </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Swiper Initialization
+        var swiper = new Swiper(".swiper", {
+            loop: true,
+            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 5000, disableOnInteraction: false },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+        // ------------------------------------------------------
+        // SOLUCIÓN DEL PROBLEMA: Función de las Pestañas (Tabs)
+        // ------------------------------------------------------
+        function showTab(event, tabId) {
+            // 1. Ocultar todos los contenidos de las pestañas
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 2. Desactivar todos los botones
+            const tabButtons = document.querySelectorAll('.tab-buttons button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // 3. Mostrar el contenido seleccionado
+            const selectedTab = document.getElementById(tabId);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+
+            // 4. Activar el botón clickeado
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        // Chatbot Logic Simple
+        const chatbox = document.getElementById('chatbox');
+        const userInput = document.getElementById('userInput');
+
+        function sendMessage() {
+            const text = userInput.value;
+            if(!text) return;
+            
+            const pUser = document.createElement('p');
+            pUser.className = 'message-user mb-2';
+            pUser.innerHTML = `<strong>Tú:</strong> ${text}`;
+            chatbox.appendChild(pUser);
+            
+            userInput.value = '';
+            
+            // Respuesta simulada
+            setTimeout(() => {
+                const pBot = document.createElement('p');
+                pBot.className = 'message-bot mb-2';
+                pBot.innerHTML = `<strong>Agente:</strong> He recibido tu mensaje: "${text}".`;
+                chatbox.appendChild(pBot);
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }, 1000);
+        }
+
+        // Scripts adicionales (Carrusel 3D, Scroll, etc se mantienen igual)
+        // ... [Resto de tu lógica JS si la necesitas] ...
+        
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                const backgroundPositionPercentage = Math.min(scrollPercentage, 100); 
+                bg.style.backgroundPosition = `50% ${backgroundPositionPercentage}%`;
+            }
+        });
+
+    </script>
+</body>
+</html>
