@@ -542,107 +542,33 @@
             <a href="#" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2 hover:scale-110 transition-transform">
-                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
-            </a>
         </div>
         
         <!-- Iconos de Redes Sociales (Móvil) CONSERVADOS -->
-        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#2C3333] bg-opacity-50 backdrop-blur-sm p-3 z-20">
-            <a href="#" class="p-2">
+        <div class="hidden md:flex flex-col space-y-4 fixed left-4 top-1/2 -translate-y-1/2 z-20">
+            <a href="https://www.facebook.com/profile.php?id=61571012665827" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2">
+            <a href="https://www.instagram.com/internetparaelbienestar/" class="p-2 hover:scale-110 transition-transform">
                 <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
             </a>
-            <a href="#" class="p-2">
-                <img src="img/tiktok.png" alt="TikTok" class="w-6 h-6">
+        </div>
+        
+        <div class="md:hidden flex justify-center items-center space-x-6 fixed bottom-0 left-0 right-0 bg-[#681b32] bg-opacity-50 backdrop-blur-sm p-3 z-20">
+            <a href="https://www.facebook.com/profile.php?id=61571012665827" class="p-2">
+                <img src="img/facebook.png" alt="Facebook" class="w-6 h-6">
             </a>
+            <a href="https://www.instagram.com/internetparaelbienestar/" class="p-2">
+                <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
         </div>
 
-        <!-- Burbuja Flotante de Chat CONSERVADA -->
-        <div class="fixed bottom-5 right-5 z-50">
-            <!-- Menú de Opciones -->
-            <div x-show="chatOptionsOpen" 
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 translate-y-2"
-                 x-transition:enter-end="opacity-100 translate-y-0"
-                 x-transition:leave="transition ease-in duration-150"
-                 x-transition:leave-start="opacity-100 translate-y-0"
-                 x-transition:leave-end="opacity-0 translate-y-2"
-                 class="chat-bubble-options absolute bottom-16 right-0 mb-2 w-60 bg-[#ae0747] rounded-lg shadow-xl py-2"
-                 @click.outside="chatOptionsOpen = false"
-                 x-cloak>
-                <!-- Opción WhatsApp -->
-                <a href="https://wa.me/5215593314200" target="_blank" class="flex items-center px-4 py-2 text-sm text-white hover:bg-[#840033]">
-                   <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M13.545 6.455a4.49 4.49 0 00-6.35 0L6.455 7.19a4.5 4.5 0 106.357 6.357l.735-.735a4.49 4.49 0 000-6.35l-.735.735zm-.707 5.643l-4.95-4.95a3.5 3.5 0 114.95 4.95zm2.121-2.121a1.5 1.5 0 11-2.121-2.121 1.5 1.5 0 012.121 2.121zM10 18.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5zm0-1.5a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"></path></svg>
-                   Chat WhatsApp
-                </a>
-                <!-- Opción Asistente Virtual -->
-                <button @click="isChatOpen = true; chatOptionsOpen = false" class="flex items-center w-full text-left px-4 py-2 text-sm text-white hover:bg-[#840033]">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                    Asistente Virtual
-                </button>
-            </div>
+    <!-- Floating Chat Bubble (WHATSAPP DIRECTO) -->
+    <a href="https://wa.me/5215644636321" target="_blank" class="fixed bottom-5 right-5 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none flex items-center justify-center">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
 
-            <!-- Botón de la Burbuja -->
-            <button @click="chatOptionsOpen = !chatOptionsOpen" class="bg-[#ae0747] hover:bg-[#840033] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none">
-                <svg x-show="!chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-                <svg x-show="chatOptionsOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-
-        <!-- Modal del Chat CONSERVADO -->
-        <div x-show="isChatOpen" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="chat-modal-container fixed inset-0 flex items-start justify-center pt-20 p-4 z-[100]" 
-             x-cloak>
-            <!-- Overlay -->
-            <div class="chat-modal-overlay fixed inset-0" @click="isChatOpen = false"></div>
-            
-            <!-- Contenido del Modal -->
-            <div id="chat-modal" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col" @click.stop>
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-[#ffffff] title-outline">Asistente Virtual</h3>
-                    <button @click="isChatOpen = false" class="text-gray-400 hover:text-white">&times;</button>
-                </div>
-                 <div id="chatbox" class="flex-grow">
-                     <p class="message-bot"><strong>Agente:</strong> ¡Hola! Estoy aquí para ayudarte con cualquier duda sobre nuestros servicios de telecomunicaciones. 😊</p>
-                 </div>
-                 <div class="flex items-center mt-4">
-                     <input type="text" id="userInput" placeholder="Escribe tu mensaje..." class="flex-grow mr-2" onkeypress="if(event.key === 'Enter') sendMessage()">
-                     <button id="chat-button" onclick="sendMessage()">Enviar</button>
-                 </div>
-            </div>
-        </div>
-
-        <!-- INICIO: Modal de Resultado IMEI (Se conserva por si se usa en el futuro, pero no se activa) -->
-        <div x-show="isResultModalOpen" 
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="chat-modal-container fixed inset-0 flex items-center justify-center p-4 z-[100]" 
-             x-cloak>
-            <!-- Overlay -->
-            <div class="chat-modal-overlay fixed inset-0" @click="isResultModalOpen = false"></div>
-            
-            <!-- Contenido del Modal -->
-            <div id="resultado-modal-content" class="chat-modal-content bg-[#2C3333] rounded-lg shadow-xl w-full max-w-lg p-6 flex flex-col relative" @click.stop>
-                <button @click="isResultModalOpen = false" class="text-gray-400 hover:text-white absolute top-4 right-4 text-3xl">&times;</button>
-                 <div id="resultado-imei" class="text-center p-4">
-                     <!-- El contenido se insertaría aquí por JavaScript -->
-                 </div>
-            </div>
-        </div>
-        <!-- FIN: Modal de Resultado IMEI -->
 
     </div> <!-- Fin del div x-data principal -->
 
