@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga de Lonas - Internet para el Bienestar</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <!-- 1. Preconexiones -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- 2. Carga de Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Alpine JS -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Estilos heredados de index.html */
+        html { height: 100%; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(180deg,  #ffffff, #840033, #c42f68, #840033, #c1386c, #840033);
+            background-size: 100% 400%;
+            background-attachment: fixed;
+            transition: background-position 0.2s ease-out;
+            color: #374151; /* Texto oscuro por defecto para legibilidad en tarjetas blancas */
+        }
+
+        [x-cloak] { display: none !important; }
+
+        /* Estilos específicos para las tarjetas de lonas */
+        .lona-card {
+            transition: all 0.3s ease;
+        }
+        .lona-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Estilos del Footer Nuevo (adaptado al tema dorado) */
+        .footer-nuevo { font-family: 'Montserrat', sans-serif; color: #374151; }
+        .footer-nuevo h4 { color: #374151; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
+        .footer-nuevo a { color: #4B5563; text-decoration: none; transition: color 0.2s; }
+        .footer-nuevo a:hover { color: #840033; }
+        
+        .store-button { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .store-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    </style>
+</head>
+
+<body x-data="{ openMenu: false, isScrolled: false }" @scroll.window="isScrolled = (window.pageYOffset > 50) ? true : false">
+    
+         <!-- HEADER -->
+        <header class="text-red-900 fixed top-0 w-full z-50 transition-colors duration-300" 
+                :class="{ 'bg-[#ffffff] shadow-lg': isScrolled, 'bg-transparent': !isScrolled }">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-24">
+                    <a href="/index.html" class="flex-shrink-0">
+                        <img src="logo.png" alt="Logo Cool" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/150x40/2C3333/CBE4DE?text=Logo';">
+                    </a>
+                    <div class="hidden lg:flex lg:space-x-8">
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Telefonía
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/telefonia_simcard/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Telefonia-simcard</a>
+                                <a href="/promociones/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Promociones</a>
+                            </div>
+                        </div>
+                        <!-- Otras opciones de menú simplificadas para brevedad, el original tenía más -->
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Consulta
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/portabilidad/index.html" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Portabilidad</a>
+                                <a href="/compatibilidad/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Compatibilidad</a>
+                            </div>
+                        </div>
+                        <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                            <button class="flex items-center text-[#840033] hover:text-[#4f0c13] px-3 py-2 rounded-md font-medium transition-colors duration-200">
+                                Contacto
+                                <svg class="w-4 h-4 ml-1 transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div x-show="open" x-cloak x-transition class="absolute top-full left-0 mt-2 w-48 bg-[#ffffff] rounded-md shadow-lg py-1 z-40">
+                                <a href="/faqs/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Faqs</a>
+                                <a href="/contacto/" class="block px-4 py-2 text-sm hover:bg-[#c9a7aa]">Contactos</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Recargas Blanco -->
+                    <a href="https://recarga.internetparaelbienestar.mx/bienestar" class="hidden lg:block bg-white hover:bg-gray-100 text-[#840033] font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105 shadow-md border border-gray-200">
+                        Recargas
+                    </a>
+
+                    <div class="lg:hidden flex items-center">
+                        <!-- AQUÍ ESTÁ EL CAMBIO: text-white CAMBIADO A text-[#840033] -->
+                        <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#840033] hover:text-[#ae0747] hover:bg-gray-100 focus:outline-none"> 
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="h-6 w-6" x-show="!openMenu" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                            </svg>
+                            <svg class="h-6 w-6" x-show="openMenu" x-cloak fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="openMenu" x-cloak class="lg:hidden fixed inset-0 bg-[#691b32] z-40"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
+                <div class="px-2 pt-20 pb-3 space-y-1 sm:px-3">
+                    <div class="absolute top-4 right-4">
+                        <button @click="openMenu = false" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-gray-700 focus:outline-none">
+                            <span class="sr-only">Cerrar menú</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <!-- Mobile Links (simplificados) -->
+                     <div x-data="{ openTelefonia: false, openConsulta: false, openContacto: false }">
+                    <!-- Telefonía -->
+                    <button @click="openTelefonia = !openTelefonia" 
+                            class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#4f0c13]">
+                        <span>Telefonía</span>
+                        <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openTelefonia}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="openTelefonia" x-cloak class="pl-6 space-y-1">
+                        <a href="/telefonia_simcard/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Telefonia-simcard</a>
+                        <a href="/promociones/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Promociones</a>
+                    </div>
+
+                    <!-- Consulta -->
+                    <button @click="openConsulta = !openConsulta" 
+                            class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#4f0c13]">
+                        <span>Consulta</span>
+                    <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openConsulta}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div x-show="openConsulta" x-cloak x-transition class="pl-6 space-y-1">
+                    <a href="portabilidad/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Portabilidad</a>
+                    <a href="compatibilidad/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Compatibilidad</a>
+                </div>
+                <!-- contacto -->
+                <button @click="openContacto = !openContacto" 
+                        class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-white hover:bg-[#4f0c13]">
+                    <span>Contacto</span>
+                    <svg class="w-5 h-5 transition-transform" :class="{'rotate-180': openContacto}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div x-show="openContacto" x-cloak x-transition class="pl-6 space-y-1">
+                    <a href="/faqs/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Faqs</a>
+                    <a href="/contacto/" class="block px-3 py-2 text-sm text-[#c9b08b] hover:bg-[#4f0c13]">Contacto</a>
+                </div>
+            </div>
+            </div>
+                    <div class="pt-4 border-t border-[#4f0c13]">
+                        <a href="https://crmxpace.com/coolmobile/recargas-stripe" class="block text-center bg-[#840033] hover:bg-[#4f0c13] text-white font-bold py-3 px-6 rounded-full w-full">
+                            Recargas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    <!-- Contenido Principal -->
+    <div class="container mx-auto max-w-5xl p-4 sm:p-8 pt-32 sm:pt-40">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+            
+            <main class="p-6 sm:p-12 text-gray-800">
+                <h1 class="text-3xl sm:text-5xl font-black text-[#840033] mb-4 text-center tracking-tight">
+                    Descarga tus lonas preferidas
+                </h1>
+                <p class="text-center text-gray-500 mb-16 max-w-2xl mx-auto">
+                    Obtén el material oficial de Internet para el Bienestar para tu punto de venta.
+                </p>
+                
+                <div class="space-y-24">
+                    <!-- LONA 1 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
+                        <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-[#c9a7aa]">
+                            <img src="img/lonasgeneral.png" alt="Lona General" 
+                                 class="max-w-full h-auto rounded-lg shadow-md"
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Vista previa no disponible</p>';">
+                        </div>
+
+                        <div class="flex flex-col space-y-6">
+                            <div class="border-l-4 border-[#840033] pl-6">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Lona Publicitaria General</h2>
+                                <p class="text-gray-600">Formato General Diseño de marca general que resalta la tarjeta SIM al centro como elemento principal de la comunicación visual.</p>
+                            </div>
+
+                            <div class="bg-[#fce7f3] bg-opacity-50 p-6 rounded-2xl text-sm text-[#840033]">
+                                <p><strong>Ancho:</strong> 90 cm | <strong>Alto:</strong> 90 cm</p>
+                            </div>
+
+                            <div class="pt-4">
+                                <a href="lonasgeneral.pdf" 
+                                   download="lonasgeneral.pdf"
+                                   target="_blank"
+                                   class="group flex items-center justify-center w-full bg-[#840033] hover:bg-[#4f0c13] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
+                                    <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    Descargar PDF General
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LONA 2 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center lona-card">
+                        <div class="bg-gray-50 rounded-2xl p-4 flex items-center justify-center border-2 border-dashed border-[#c9a7aa]">
+                            <img src="img/lonascien.png" alt="Lona Plan $100" 
+                                 class="max-w-full h-auto rounded-lg shadow-md"
+                                 onerror="this.onerror=null;this.parentElement.innerHTML='<p class=\'text-red-500 text-xs text-center\'>Vista previa no disponible</p>';">
+                        </div>
+
+                        <div class="flex flex-col space-y-6">
+                            <div class="border-l-4 border-[#840033] pl-6">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Lona Publicitaria plan $100</h2>
+                                <p class="text-gray-600">Promoción Específica Diseño publicitario enfocado en la promoción de recarga desde 100 pesos con cuatro iconos de beneficios destacados.</p>
+                            </div>
+
+                            <div class="bg-[#fce7f3] bg-opacity-50 p-6 rounded-2xl text-sm text-[#840033]">
+                                <p><strong>Ancho:</strong> 90 cm | <strong>Alto:</strong> 90 cm</p>
+                            </div>
+
+                            <div class="pt-4">
+                                <a href="lonascien.pdf" 
+                                   download="lonasplan.pdf"
+                                   target="_blank"
+                                   class="group flex items-center justify-center w-full bg-[#840033] hover:bg-[#4f0c13] text-white text-lg font-bold py-5 px-8 rounded-2xl transition-all shadow-lg">
+                                    <svg class="w-6 h-6 mr-3 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    Descargar PDF Plan $100
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#ddc798] pt-10 footer-nuevo">
+        <div class="container mx-auto px-4 pb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start gap-8">
+                
+                <!-- Columna Logo (Sin fondo rojo, solo logo) -->
+                <div class="w-full lg:w-1/4">
+                   <div class="p-0 text-center lg:text-left">
+                      <!-- Logo directo -->
+                       <a href="index.html">
+                      <img src="logo.png" alt="Cool Mobile" class="h-24 object-contain mx-auto lg:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/200x80/transparent/840033?text=Cool+Mobile';">
+                          </a>
+                    </div>
+                </div>
+        
+                <!-- Columna Consulta -->
+                <div class="w-full lg:w-1/5">
+                    <h4>Consulta</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><a href="/telefonia_simcard/">Tarjeta SIM</a></li>
+                      <li><a href="/faqs/">Preguntas Frecuentes</a></li>
+                      <li><a href="https://tarifas.ift.org.mx/ift_visor/">Buscador de tarifas IFT</a></li>
+                      <li><a href="/portabilidad/">Portabilidad</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Columna Legales -->
+                <div class="w-full lg:w-1/5">
+                    <h4>Legales</h4>
+                    <ul class="space-y-2 text-sm">
+                      <li><a href="/avisos-de-privacidad/" class="font-bold text-black">Aviso de privacidad Integral</a></li>
+                      <li><a href="/politica-de-uso-justo/">Política de Uso Justo</a></li>
+                      <li><a href="/terminos-de-condiciones/">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+        
+                <!-- Columna Contacto/Ventas -->
+                <div class="w-full lg:w-1/3 flex flex-col md:flex-row gap-8">
+                    <div class="flex-1">
+                        <h4>Ventas</h4>
+                        <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5644636321">
+                            <span class="font-bold text-black text-lg">564 463 6321</span>
+                            </a>
+                        </div>
+                        <p class="text-xs text-gray-500">Lunes a Viernes de 8:00 a 20:00</p>
+                        <p class="text-xs text-gray-500">Sábado a domigo de 9:00 a 16:00</p>
+                    </div>
+                    <div class="flex-1">
+                        <h4>Atención a Clientes</h4>
+                          <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                            <a href="tel:5593311394">
+                            <span class="font-bold text-black text-lg">559 331 1394</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+        <!-- Barra Copyright -->
+        <div class="bg-[#640d2e] text-white py-4 text-center text-sm">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 AWAN TECHNOLGY SERVICES Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Flotante (Whatsapp Directo como en index.html) -->
+    <a href="https://wa.me/5215644636321" target="_blank" class="fixed bottom-5 right-5 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none flex items-center justify-center">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <script>
+        // Script de fondo interactivo original
+        window.addEventListener('scroll', () => {
+            const bg = document.body;
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (scrollableHeight > 0) {
+                const scrollPercentage = (window.scrollY / scrollableHeight) * 100;
+                // Ajustamos la posición del fondo basado en el scroll
+                bg.style.backgroundPosition = `50% ${Math.min(scrollPercentage, 100)}%`;
+            }
+        });
+    </script>
+</body>
+</html>
