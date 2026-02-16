@@ -40,26 +40,6 @@
                 4px 4px 8px rgba(0,0,0,0.5);
         }
         
-        /* Estilos del Chat (modal) */
-        #chat-modal #chatbox {
-            border: 1px solid #4B5563; padding: 1rem; height: 400px;
-            overflow-y: scroll; margin-bottom: 1rem; background-color: #3C4248;
-            border-radius: 0.5rem;
-        }
-        #chat-modal .message-user { text-align: right; color: #ae0747; }
-        #chat-modal .message-bot { text-align: left; color: #ffffff; } 
-        #chat-modal #userInput {
-            width: calc(100% - 6rem); padding: 0.75rem; border-radius: 9999px;
-            border: 1px solid #4B5563; background-color: #4A5568;
-            color: white; outline: none;
-        }
-        #chat-modal #userInput:focus { border-color: #ae0747; } 
-        #chat-modal #chat-button {
-            background-color: #ae0747; color: white; padding: 0.75rem 1.5rem; 
-            border-radius: 9999px; font-weight: bold; transition: all 0.2s;
-        }
-        #chat-modal #chat-button:hover { background-color: #840033; transform: scale(1.05); } 
-
         /* FOOTER NUEVO */
         .footer-nuevo { font-family: 'Montserrat', sans-serif; color: #374151; }
         .footer-nuevo h4 { color: #374151; font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
@@ -181,7 +161,7 @@
                     <a href="https://recarga.internetparaelbienestar.mx/bienestar" class="hidden lg:block bg-white hover:bg-gray-100 text-[#840033] font-bold py-2 px-5 rounded-full transition-all duration-200 transform hover:scale-105 shadow-md border border-gray-200">
                         Recargas
                     </a>
-                                        <div class="lg:hidden flex items-center">
+                                <div class="lg:hidden flex items-center">
                         <!-- AQUÍ ESTÁ EL CAMBIO: text-white CAMBIADO A text-[#840033] -->
                         <button @click="openMenu = !openMenu" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-[#840033] hover:text-[#ae0747] hover:bg-gray-100 focus:outline-none"> 
                             <span class="sr-only">Abrir menú principal</span>
@@ -301,23 +281,23 @@
         
                 <!-- Columna Consulta -->
                 <div class="w-full lg:w-1/5">
-                   <h4>Consulta</h4>
-                   <ul class="space-y-2 text-sm">
+                    <h4>Consulta</h4>
+                    <ul class="space-y-2 text-sm">
                       <li><a href="/telefonia_simcard/">Tarjeta SIM</a></li>
                       <li><a href="/faqs/">Preguntas Frecuentes</a></li>
                       <li><a href="https://tarifas.ift.org.mx/ift_visor/">Buscador de tarifas IFT</a></li>
                       <li><a href="/portabilidad/">Portabilidad</a></li>
-                   </ul>
+                    </ul>
                 </div>
         
                 <!-- Columna Legales -->
                 <div class="w-full lg:w-1/5">
-                   <h4>Legales</h4>
-                   <ul class="space-y-2 text-sm">
+                    <h4>Legales</h4>
+                    <ul class="space-y-2 text-sm">
                       <li><a href="/avisos-de-privacidad/" class="font-bold text-black">Aviso de privacidad Integral</a></li>
                       <li><a href="/politica-de-uso-justo/">Política de Uso Justo</a></li>
                       <li><a href="/terminos-de-condiciones/">Términos y Condiciones</a></li>
-                   </ul>
+                    </ul>
                 </div>
         
                 <!-- Columna Contacto/Ventas -->
@@ -335,7 +315,7 @@
                     </div>
                     <div class="flex-1">
                         <h4>Atención a Clientes</h4>
-                         <div class="flex items-center mb-2">
+                          <div class="flex items-center mb-2">
                             <svg class="w-5 h-5 mr-2 text-black" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
                             <a href="tel:5593311394">
                             <span class="font-bold text-black text-lg">559 331 1394</span>
@@ -372,102 +352,88 @@
                 <img src="img/instagram.png" alt="Instagram" class="w-6 h-6">
         </div>
 
-    <!-- Floating Chat Bubble (WHATSAPP DIRECTO) -->
-    <a href="https://wa.me/5215644636321" target="_blank" class="fixed bottom-5 right-5 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full p-4 shadow-lg transition transform hover:scale-110 focus:outline-none flex items-center justify-center">
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
-    </a>
+    <!-- MENÚ DE AYUDA FLOTANTE INTERACTIVO -->
+    <div x-data="{ open: false }" class="fixed bottom-5 right-5 z-[3000] flex flex-col items-end gap-3">
+        
+        <!-- Opciones del menú (se muestran al abrir) -->
+        <div x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-90"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-10 scale-90"
+             class="flex flex-col items-end gap-3 mb-2">
+
+            <!-- Opción 1: Robos y Extravíos (Llamada al número de ventas/urgencia) -->
+            <div class="flex items-center gap-2">
+                <span class="bg-white text-gray-800 text-xs font-bold py-1 px-3 rounded-lg shadow-md whitespace-nowrap">
+                    Robos y Extravíos
+                </span>
+                <a href="tel:5644636321" class="bg-red-600 hover:bg-red-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+                    <!-- Icono Alerta/Urgencia -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Opción 2: Adquirir SIM / Ventas (WhatsApp) -->
+            <div class="flex items-center gap-2">
+                <span class="bg-white text-gray-800 text-xs font-bold py-1 px-3 rounded-lg shadow-md whitespace-nowrap">
+                    Adquirir SIM / Comprar
+                </span>
+                <a href="https://wa.me/5215644636321?text=Hola,%20me%20interesa%20adquirir%20una%20SIM%20Cool%20Mobile" target="_blank" class="bg-[#25D366] hover:bg-[#128C7E] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+                    <!-- Icono WhatsApp -->
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Opción 3: Soporte Técnico / Fallas (Llamada) -->
+            <div class="flex items-center gap-2">
+                <span class="bg-white text-gray-800 text-xs font-bold py-1 px-3 rounded-lg shadow-md whitespace-nowrap">
+                    Falla de Línea / Soporte
+                </span>
+                <a href="tel:5593311394" class="bg-blue-600 hover:bg-blue-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+                    <!-- Icono Soporte -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Botón Principal (Toggle) -->
+        <button @click="open = !open" 
+                class="bg-[#840033] hover:bg-[#600025] text-white p-4 rounded-full shadow-xl transition transform hover:scale-105 focus:outline-none flex items-center justify-center relative">
+            
+            <!-- Icono Teléfono (Se muestra cuando está cerrado) -->
+            <svg x-show="!open" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 rotate-90"
+                 x-transition:enter-end="opacity-100 rotate-0">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+            </svg>
+
+            <!-- Icono Cerrar X (Se muestra cuando está abierto) -->
+            <svg x-show="open" x-cloak class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 -rotate-90"
+                 x-transition:enter-end="opacity-100 rotate-0">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+
+        </button>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- Scripts -->
     <script>
-        // Chatbot Script
-        const apiKey = ""; 
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-        const chatbox = document.getElementById('chatbox'); 
-        const userInput = document.getElementById('userInput'); 
-        
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('p');
-            messageDiv.classList.add('mb-2'); 
-            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'Tú' : 'Agente'}:</strong> <span class="block">${text}</span>`; // Make text wrap
-            messageDiv.classList.add(sender === 'user' ? 'message-user' : 'message-bot');
-            chatbox.appendChild(messageDiv);
-            chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
-        }
-
-
-        async function sendMessage() {
-            const userMessage = userInput.value.trim();
-            if (userMessage === '') return;
-            addMessage(userMessage, 'user');
-            userInput.value = '';
-
-            const typingIndicator = document.createElement('p');
-            typingIndicator.className = 'message-bot mb-2'; // Added margin-bottom
-            typingIndicator.innerHTML = '<strong>Agente:</strong> Escribiendo...';
-            chatbox.appendChild(typingIndicator);
-             chatbox.scrollTo({ top: chatbox.scrollHeight, behavior: 'smooth' });
-
-
-            const payload = {
-                contents: [{ parts: [{ text: userMessage }] }],
-                systemInstruction: { parts: [{ text: "Eres un agente de soporte de telecomunicaciones para la empresa Cool Mobile. Tu objetivo es resolver dudas sobre planes, recargas, cobertura y promociones." }] }
-            };
-
-            let retryCount = 0;
-            const maxRetries = 3;
-            const initialDelay = 1000; // 1 second
-
-            while (retryCount <= maxRetries) {
-                try {
-                    const response = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.status === 429 || response.status >= 500) {
-                         if (retryCount === maxRetries) {
-                            throw new Error(`API error after ${maxRetries} retries. Status: ${response.status}`);
-                         }
-                        const delay = initialDelay * Math.pow(2, retryCount);
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        retryCount++;
-                        continue; // Retry the fetch
-                    }
-                    
-                    if (!response.ok) {
-                        const errorBody = await response.json();
-                        console.error('Error from API:', errorBody);
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    const botResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (botResponse) {
-                        typingIndicator.remove();
-                        addMessage(botResponse, 'bot');
-                    } else {
-                        console.error('Unexpected API response structure:', result);
-                        throw new Error('Invalid response structure from API.');
-                    }
-                    
-                    break; // Exit loop on success
-
-                } catch (error) {
-                    console.error('Failed to fetch from Gemini API:', error);
-                    typingIndicator.remove();
-                    addMessage('Lo siento, encontré un error. Por favor, inténtalo de nuevo más tarde.', 'bot');
-                    break; // Exit loop on error
-                }
-            }
-        }
-
         // Scrolling Gradient Script
         window.addEventListener('scroll', () => {
             const bg = document.body;
